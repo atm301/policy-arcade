@@ -1,0 +1,2640 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+<meta name="theme-color" content="#1a1830">
+<title>POLICY ARCADE｜遊戲化 × AI × 公共政策</title>
+<meta name="description" content="2026/5/7 公共行政暨政策學系課程輔助站。7 國政策遊戲化案例巡禮、Octalysis 八角分析互動設計器、小組任務提交工具。">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="POLICY ARCADE｜用有趣有效的方式推動嚴肅的政策">
+<meta property="og:description" content="遊戲化 × AI × 公共政策 互動課程站｜7 國案例 × Octalysis 設計器 × 小組任務">
+<meta property="og:image" content="https://policy-arcade.vercel.app/og.png">
+<meta property="og:url" content="https://policy-arcade.vercel.app/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://policy-arcade.vercel.app/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%AE%3C/text%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+<!-- GA4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RDJD1YVHR7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-RDJD1YVHR7');
+</script>
+
+<style>
+  :root {
+    --c-bg:        #1a1830;
+    --c-bg-2:      #2d2a4a;
+    --c-bg-3:      #3a3760;
+    --c-pink:      #ed4978;
+    --c-pink-d:    #c12d5b;
+    --c-green:     #4ce46f;
+    --c-green-d:   #2eb84e;
+    --c-blue:      #5cc6f5;
+    --c-yellow:    #f9c66f;
+    --c-coral:     #f99761;
+    --c-purple:    #a582ff;
+    --c-text:      #f5f3ff;
+    --c-mute:      #8b88a8;
+    --c-line:      #4a456e;
+    --tab-h:       70px;
+    --base-fz:     16px;
+  }
+
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; padding: 0; }
+  html { font-size: var(--base-fz); }
+  body {
+    font-family: 'Noto Sans TC', system-ui, -apple-system, 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+    background: var(--c-bg);
+    color: var(--c-text);
+    line-height: 1.75;
+    overflow-x: hidden;
+    image-rendering: pixelated;
+  }
+  body::before {
+    content: ''; position: fixed; inset: 0;
+    background: repeating-linear-gradient(0deg, transparent 0, transparent 3px, rgba(255,255,255,.012) 3px, rgba(255,255,255,.012) 4px);
+    pointer-events: none; z-index: 1;
+  }
+
+  .pixel { font-family: 'Press Start 2P', monospace; line-height: 1.5; letter-spacing: .04em; }
+  a { color: var(--c-blue); text-decoration: none; }
+  a:hover { color: var(--c-yellow); text-decoration: underline; }
+  img { max-width: 100%; display: block; }
+  button { font-family: inherit; cursor: pointer; }
+
+  /* ========= Pixel border helpers ========= */
+  .px-border {
+    background: var(--c-bg-2);
+    box-shadow:
+      0 -4px 0 0 var(--c-line),
+      0 4px 0 0 var(--c-line),
+      -4px 0 0 0 var(--c-line),
+      4px 0 0 0 var(--c-line),
+      inset 0 0 0 0 var(--c-line);
+  }
+
+  /* ========= Top stripe (yellow/pink zebra) ========= */
+  .top-stripe, .bottom-stripe {
+    height: 14px;
+    background:
+      repeating-linear-gradient(90deg,
+        var(--c-pink) 0 24px,
+        var(--c-yellow) 24px 48px);
+  }
+
+  /* ========= Hero ========= */
+  header.hero {
+    padding: 36px 22px 28px;
+    text-align: center;
+    background: var(--c-bg);
+    position: relative;
+    border-bottom: 6px solid var(--c-pink);
+  }
+  .hero-eyebrow {
+    color: var(--c-yellow);
+    font-size: 0.78rem;
+    letter-spacing: .25em;
+    margin-bottom: 12px;
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+  }
+  .hero-eyebrow::before, .hero-eyebrow::after {
+    content: '◆'; color: var(--c-yellow);
+  }
+  .hero h1 {
+    font-family: 'Press Start 2P', monospace;
+    margin: 0 0 12px;
+    font-size: clamp(1.4rem, 5.6vw, 2.4rem);
+    color: var(--c-text);
+    text-shadow: 4px 4px 0 var(--c-pink);
+    line-height: 1.4;
+  }
+  .hero-sub {
+    margin: 0 0 8px;
+    font-size: 1rem;
+    color: var(--c-yellow);
+    font-weight: 700;
+  }
+  .hero-tagline {
+    color: var(--c-pink); letter-spacing: .15em;
+    font-size: 0.85rem;
+  }
+  .hero-tagline::before { content: '>>  '; color: var(--c-green); }
+  .hero-tagline::after { content: '  <<'; color: var(--c-green); }
+
+  /* HUD（右上角分數、上方狀態列） */
+  .hud {
+    position: fixed; top: 8px; right: 8px;
+    display: flex; gap: 6px; align-items: center;
+    background: rgba(26, 24, 48, 0.85);
+    border: 2px solid var(--c-yellow);
+    padding: 6px 10px;
+    z-index: 600;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.7rem;
+  }
+  .hud .coin {
+    width: 18px; height: 18px;
+    background: var(--c-yellow);
+    border: 2px solid var(--c-bg);
+    box-shadow: 0 0 0 2px var(--c-yellow);
+    border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: var(--c-bg); font-size: 0.6rem;
+  }
+  .hud .exp { color: var(--c-green); }
+  .hud .lvl { color: var(--c-pink); }
+
+  /* ========= Main ========= */
+  main {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 18px 16px calc(var(--tab-h) + 36px);
+    position: relative; z-index: 2;
+  }
+
+  /* ========= Stage banner ========= */
+  .stage-banner {
+    display: flex; align-items: center; gap: 12px;
+    margin: 0 0 16px;
+    border-bottom: 2px dashed var(--c-line);
+    padding-bottom: 10px;
+  }
+  .stage-banner .stg {
+    background: var(--c-green);
+    color: var(--c-bg);
+    padding: 4px 10px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.72rem;
+  }
+  .stage-banner .lvl-tag {
+    background: var(--c-bg-2); color: var(--c-yellow);
+    padding: 4px 10px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.7rem;
+    border: 2px solid var(--c-line);
+  }
+  .stage-banner .right {
+    margin-left: auto;
+    color: var(--c-mute);
+    font-size: 0.82rem;
+  }
+
+  /* ========= Panel ========= */
+  .panel {
+    background: var(--c-bg-2);
+    border: 4px solid var(--c-line);
+    padding: 22px 20px;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .panel::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 4px;
+    background: var(--c-pink);
+  }
+  .panel.green::before { background: var(--c-green); }
+  .panel.blue::before { background: var(--c-blue); }
+  .panel.yellow::before { background: var(--c-yellow); }
+  .panel-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.95rem;
+    color: var(--c-yellow);
+    margin: 0 0 12px;
+    line-height: 1.5;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .panel-title .num {
+    background: var(--c-pink); color: var(--c-bg);
+    width: 28px; height: 28px;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 0.8rem;
+  }
+  .panel-desc {
+    margin: 0 0 16px;
+    color: var(--c-text);
+    font-size: 0.96rem;
+  }
+
+  /* ========= Tabs (bottom fixed) ========= */
+  .tabs {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: var(--c-bg);
+    border-top: 4px solid var(--c-pink);
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    z-index: 500;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .tab-btn {
+    appearance: none; border: none; background: none;
+    padding: 8px 2px;
+    height: var(--tab-h);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 3px;
+    color: var(--c-mute);
+    transition: color .15s;
+    position: relative;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.55rem;
+  }
+  .tab-btn .icon { font-size: 1.4rem; line-height: 1; }
+  .tab-btn .label { letter-spacing: .05em; }
+  .tab-btn[aria-selected="true"] { color: var(--c-yellow); }
+  .tab-btn[aria-selected="true"]::before {
+    content: ''; position: absolute; top: -4px; left: 18%; right: 18%; height: 4px;
+    background: var(--c-pink);
+  }
+  .tab-btn .check {
+    position: absolute; top: 4px; right: 6px;
+    width: 14px; height: 14px;
+    background: var(--c-green); color: var(--c-bg);
+    font-size: 9px;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity .2s;
+    font-family: sans-serif;
+  }
+  .tab-btn.done .check { opacity: 1; }
+  .tab-section { display: none; }
+  .tab-section.active { display: block; animation: pixelIn .25s steps(4, end); }
+  @keyframes pixelIn {
+    0%   { opacity: 0; transform: translateY(8px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ========= Form fields ========= */
+  .field { margin-bottom: 16px; }
+  .field label {
+    display: block;
+    font-size: 0.84rem;
+    font-family: 'Press Start 2P', monospace;
+    color: var(--c-blue);
+    margin-bottom: 8px;
+    letter-spacing: .04em;
+  }
+  .field label .req { color: var(--c-pink); margin-left: 4px; }
+  .field input, .field textarea, .field select {
+    width: 100%; padding: 12px 14px;
+    border: 3px solid var(--c-line);
+    background: var(--c-bg);
+    color: var(--c-text);
+    font-family: inherit;
+    font-size: 1rem;
+    transition: border-color .12s, background .12s;
+  }
+  .field input:focus, .field textarea:focus, .field select:focus {
+    outline: none; border-color: var(--c-yellow);
+    background: var(--c-bg-3);
+  }
+  .field textarea { resize: vertical; min-height: 90px; line-height: 1.7; }
+  .field-hint {
+    font-size: 0.82rem; color: var(--c-mute);
+    margin-top: 6px;
+  }
+
+  /* chips */
+  .chip-group { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip {
+    appearance: none; border: 3px solid var(--c-line);
+    background: var(--c-bg);
+    padding: 8px 14px;
+    color: var(--c-mute);
+    font-family: inherit;
+    font-size: 0.92rem;
+    font-weight: 700;
+    cursor: pointer; transition: all .12s;
+  }
+  .chip:hover { background: var(--c-bg-3); color: var(--c-text); border-color: var(--c-blue); }
+  .chip.selected, .chip.active {
+    background: var(--c-pink); color: var(--c-text);
+    border-color: var(--c-pink);
+  }
+  .chip.green.selected { background: var(--c-green); color: var(--c-bg); border-color: var(--c-green); }
+  .chip.yellow.selected { background: var(--c-yellow); color: var(--c-bg); border-color: var(--c-yellow); }
+
+  /* ========= Buttons ========= */
+  .btn {
+    appearance: none;
+    border: none;
+    padding: 14px 22px;
+    background: var(--c-pink);
+    color: var(--c-text);
+    font-size: 0.94rem;
+    font-family: 'Press Start 2P', monospace;
+    width: 100%;
+    box-shadow: 0 4px 0 0 var(--c-pink-d);
+    transition: transform .08s, box-shadow .08s;
+    letter-spacing: .04em;
+  }
+  .btn:hover { transform: translateY(-1px); box-shadow: 0 5px 0 0 var(--c-pink-d); }
+  .btn:active { transform: translateY(2px); box-shadow: 0 2px 0 0 var(--c-pink-d); }
+  .btn:disabled { opacity: .5; cursor: not-allowed; }
+  .btn.green { background: var(--c-green); color: var(--c-bg); box-shadow: 0 4px 0 0 var(--c-green-d); }
+  .btn.green:hover, .btn.green:active { box-shadow: 0 4px 0 0 var(--c-green-d); }
+  .btn.yellow { background: var(--c-yellow); color: var(--c-bg); box-shadow: 0 4px 0 0 #c69a3e; }
+  .btn.blue { background: var(--c-blue); color: var(--c-bg); box-shadow: 0 4px 0 0 #2899c8; }
+  .btn.secondary {
+    background: var(--c-bg);
+    color: var(--c-text);
+    border: 3px solid var(--c-line);
+    box-shadow: none;
+  }
+  .btn.small { padding: 10px 16px; font-size: 0.78rem; width: auto; }
+  .btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+  .btn-row .btn { flex: 1; min-width: 140px; }
+
+  /* ========= Quote / Note ========= */
+  .quote-box {
+    background: var(--c-bg);
+    border-left: 4px solid var(--c-yellow);
+    padding: 14px 18px;
+    margin: 14px 0;
+    font-size: 0.96rem;
+  }
+  .quote-box strong { color: var(--c-yellow); }
+
+  /* ========= Tool block ========= */
+  .tool {
+    background: var(--c-bg-3);
+    border: 4px solid var(--c-purple);
+    padding: 20px 18px;
+    margin: 16px 0;
+  }
+  .tool-eyebrow {
+    display: inline-block;
+    background: var(--c-purple); color: var(--c-bg);
+    padding: 4px 10px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.7rem;
+    margin-bottom: 8px;
+  }
+  .tool-title {
+    font-family: 'Press Start 2P', monospace;
+    color: var(--c-yellow);
+    font-size: 0.92rem;
+    margin: 0 0 6px;
+    line-height: 1.6;
+  }
+  .tool-desc { font-size: 0.92rem; color: var(--c-text); margin: 0 0 14px; }
+  .prompt-output {
+    width: 100%;
+    min-height: 180px;
+    padding: 12px 14px;
+    border: 3px dashed var(--c-purple);
+    background: #0e0d20;
+    color: var(--c-green);
+    font-family: 'Courier New', 'Consolas', monospace;
+    font-size: 0.86rem;
+    line-height: 1.65;
+    white-space: pre-wrap;
+    resize: vertical;
+    margin: 10px 0 8px;
+  }
+  .prompt-output:focus { outline: none; border-color: var(--c-yellow); }
+
+  .ai-links { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .ai-link {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: var(--c-bg); color: var(--c-blue);
+    padding: 6px 12px;
+    border: 2px solid var(--c-blue);
+    font-size: 0.8rem; font-weight: 700;
+    text-decoration: none;
+  }
+  .ai-link:hover { background: var(--c-blue); color: var(--c-bg); }
+
+  /* ========= Card grid ========= */
+  .grid-2 { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 600px) { .grid-2 { grid-template-columns: 1fr 1fr; } }
+  .grid-3 { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 600px) { .grid-3 { grid-template-columns: 1fr 1fr 1fr; } }
+  .grid-4 { display: grid; gap: 10px; grid-template-columns: 1fr 1fr; }
+  @media (min-width: 700px) { .grid-4 { grid-template-columns: 1fr 1fr 1fr 1fr; } }
+
+  .info-card {
+    background: var(--c-bg);
+    border: 3px solid var(--c-line);
+    padding: 14px;
+  }
+  .info-card.pink { border-color: var(--c-pink); }
+  .info-card.green { border-color: var(--c-green); }
+  .info-card.blue { border-color: var(--c-blue); }
+  .info-card.yellow { border-color: var(--c-yellow); }
+  .info-card .ic-num {
+    display: inline-block; font-family: 'Press Start 2P', monospace;
+    background: var(--c-yellow); color: var(--c-bg);
+    padding: 2px 8px; font-size: 0.75rem; margin-bottom: 8px;
+  }
+  .info-card .ic-title {
+    font-family: 'Press Start 2P', monospace;
+    color: var(--c-yellow);
+    font-size: 0.78rem;
+    margin: 0 0 6px;
+    line-height: 1.5;
+  }
+  .info-card .ic-desc { font-size: 0.88rem; color: var(--c-text); }
+
+  /* ========= Country case ========= */
+  .case {
+    border: 4px solid var(--c-line);
+    background: var(--c-bg-2);
+    margin-bottom: 16px;
+  }
+  .case-header {
+    padding: 16px 18px;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 12px;
+    background: var(--c-bg-3);
+    border-bottom: 3px solid var(--c-line);
+    transition: background .12s;
+    user-select: none;
+  }
+  .case-header:hover { background: var(--c-bg-2); }
+  .case-flag {
+    font-family: 'Press Start 2P', monospace;
+    background: var(--c-bg); color: var(--c-yellow);
+    width: 56px; height: 40px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.9rem;
+    border: 2px solid var(--c-yellow);
+    flex-shrink: 0;
+  }
+  .case-title {
+    font-family: 'Press Start 2P', monospace;
+    color: var(--c-text);
+    font-size: 0.85rem; margin: 0 0 4px;
+    line-height: 1.5;
+  }
+  .case-sub { color: var(--c-mute); font-size: 0.86rem; }
+  .case-toggle {
+    margin-left: auto;
+    background: var(--c-pink); color: var(--c-text);
+    width: 32px; height: 32px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 1.05rem;
+    flex-shrink: 0;
+  }
+  .case.open .case-toggle { background: var(--c-green); color: var(--c-bg); }
+  .case-body {
+    display: none;
+    padding: 18px 20px;
+    border-top: 2px dashed var(--c-line);
+  }
+  .case.open .case-body { display: block; }
+  .case-body h4 {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.78rem;
+    color: var(--c-pink);
+    margin: 14px 0 8px;
+  }
+  .case-body h4:first-child { margin-top: 0; }
+  .case-body ul { margin: 4px 0 12px; padding-left: 22px; }
+  .case-body li { margin-bottom: 4px; font-size: 0.95rem; }
+  .case-body .num-big {
+    display: inline-block;
+    font-family: 'Press Start 2P', monospace;
+    background: var(--c-yellow); color: var(--c-bg);
+    padding: 6px 12px;
+    font-size: 1rem;
+    margin: 6px 6px 6px 0;
+  }
+  .case-body .num-big.pink { background: var(--c-pink); color: var(--c-text); }
+  .case-body .num-big.green { background: var(--c-green); color: var(--c-bg); }
+
+  .resource-row { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+  .resource-link {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 6px 10px;
+    background: var(--c-bg);
+    border: 2px solid var(--c-blue);
+    color: var(--c-blue);
+    font-size: 0.82rem;
+    text-decoration: none;
+  }
+  .resource-link:hover { background: var(--c-blue); color: var(--c-bg); }
+  .resource-link::before { content: '🔗 '; }
+  .resource-link.video::before { content: '▶ '; }
+  .resource-link.paper::before { content: '📄 '; }
+  .resource-link.gh::before { content: '⌥ '; }
+
+  /* ========= Octalysis grid ========= */
+  .oct-grid { display: grid; gap: 8px; grid-template-columns: repeat(2, 1fr); }
+  @media (min-width: 700px) { .oct-grid { grid-template-columns: repeat(4, 1fr); } }
+  .oct-card {
+    background: var(--c-bg);
+    border: 3px solid var(--c-line);
+    padding: 12px 10px;
+    cursor: pointer; transition: all .12s;
+    text-align: left;
+    appearance: none;
+    color: var(--c-text);
+    font-family: inherit;
+  }
+  .oct-card:hover { border-color: var(--c-yellow); }
+  .oct-card.selected {
+    border-color: var(--c-pink);
+    background: var(--c-bg-3);
+    box-shadow: 0 0 0 2px var(--c-pink);
+  }
+  .oct-num {
+    font-family: 'Press Start 2P', monospace;
+    background: var(--c-yellow); color: var(--c-bg);
+    width: 28px; height: 28px;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 0.82rem;
+    margin-bottom: 6px;
+  }
+  .oct-name {
+    font-weight: 900; font-size: 0.92rem;
+    color: var(--c-pink); margin: 0;
+  }
+  .oct-en { font-size: 0.74rem; color: var(--c-mute); }
+  .oct-card.selected .oct-name { color: var(--c-yellow); }
+
+  /* ========= Quest results / public board ========= */
+  .public-board { background: var(--c-bg); padding: 12px; border: 2px dashed var(--c-line); margin-top: 14px; }
+  .public-board h4 { color: var(--c-green); font-family: 'Press Start 2P', monospace; font-size: 0.76rem; margin: 0 0 8px; }
+  .public-quest-item {
+    display: flex; gap: 8px; padding: 6px 0;
+    border-bottom: 1px dashed var(--c-line);
+    font-size: 0.86rem;
+  }
+  .public-quest-item:last-child { border-bottom: none; }
+  .public-quest-item .team { color: var(--c-yellow); font-weight: 700; min-width: 60px; }
+  .public-quest-item .topic { color: var(--c-text); flex: 1; }
+  .public-quest-item .name { color: var(--c-mute); font-size: 0.78rem; }
+
+  /* ========= Class role select ========= */
+  .role-grid { display: grid; gap: 8px; grid-template-columns: repeat(2, 1fr); margin-bottom: 12px; }
+  @media (min-width: 600px) { .role-grid { grid-template-columns: repeat(3, 1fr); } }
+  .role-card {
+    appearance: none;
+    background: var(--c-bg);
+    border: 3px solid var(--c-line);
+    padding: 14px 10px;
+    cursor: pointer; transition: all .12s;
+    text-align: center;
+    color: var(--c-text); font-family: inherit;
+  }
+  .role-card:hover { border-color: var(--c-blue); }
+  .role-card.selected {
+    border-color: var(--c-yellow);
+    background: var(--c-bg-3);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 0 0 var(--c-yellow);
+  }
+  .role-icon { font-size: 2rem; line-height: 1; margin-bottom: 6px; }
+  .role-name { font-family: 'Press Start 2P', monospace; font-size: 0.74rem; color: var(--c-pink); margin: 0 0 4px; }
+  .role-desc { font-size: 0.78rem; color: var(--c-mute); }
+
+  /* ========= Live count ========= */
+  .live-count {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--c-green); color: var(--c-bg);
+    padding: 4px 12px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.7rem;
+    margin-bottom: 10px;
+  }
+  .live-count::before {
+    content: ''; width: 8px; height: 8px;
+    background: var(--c-bg); animation: pulse 1.4s steps(2, end) infinite;
+  }
+  @keyframes pulse { 0%, 100% { opacity: .4 } 50% { opacity: 1 } }
+
+  /* ========= EXP toast ========= */
+  .toast {
+    position: fixed; left: 50%; bottom: calc(var(--tab-h) + 18px);
+    transform: translateX(-50%) translateY(20px);
+    background: var(--c-bg);
+    color: var(--c-yellow);
+    border: 3px solid var(--c-yellow);
+    padding: 10px 18px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.78rem;
+    opacity: 0; pointer-events: none;
+    transition: opacity .2s steps(2,end), transform .2s steps(2,end);
+    z-index: 1000; max-width: 92%;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .toast.danger { border-color: var(--c-pink); color: var(--c-pink); }
+  .toast.success { border-color: var(--c-green); color: var(--c-green); }
+
+  /* ========= Stage clear modal ========= */
+  .modal-bg {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,.7);
+    z-index: 900;
+    display: none; align-items: center; justify-content: center;
+    padding: 20px;
+  }
+  .modal-bg.show { display: flex; }
+  .modal {
+    background: var(--c-bg-2);
+    border: 4px solid var(--c-yellow);
+    padding: 28px 24px;
+    text-align: center;
+    max-width: 420px;
+    width: 100%;
+  }
+  .modal h2 {
+    font-family: 'Press Start 2P', monospace;
+    color: var(--c-yellow);
+    font-size: 1.2rem;
+    margin: 0 0 12px;
+  }
+  .modal p { color: var(--c-text); font-size: 0.95rem; }
+  .modal .exp-row {
+    display: grid; gap: 6px; grid-template-columns: 1fr 1fr;
+    margin: 16px 0;
+  }
+  .modal .exp-cell {
+    background: var(--c-bg);
+    border: 2px solid var(--c-pink);
+    padding: 8px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.7rem;
+    color: var(--c-pink);
+  }
+
+  /* FAQ */
+  details.faq {
+    background: var(--c-bg);
+    border: 3px solid var(--c-line);
+    padding: 12px 16px;
+    margin-bottom: 6px;
+  }
+  details.faq summary {
+    cursor: pointer; font-weight: 700;
+    color: var(--c-yellow);
+    list-style: none; position: relative;
+    padding-right: 24px;
+    font-size: 0.95rem;
+  }
+  details.faq summary::after {
+    content: '+'; position: absolute; right: 0; top: 0;
+    font-size: 1.4rem; line-height: 1; color: var(--c-pink);
+    font-family: 'Press Start 2P', monospace;
+  }
+  details.faq[open] summary::after { content: '−'; }
+  details.faq summary::-webkit-details-marker { display: none; }
+  details.faq > div { margin-top: 10px; color: var(--c-text); font-size: 0.92rem; line-height: 1.7; }
+
+  /* ========= Question form ========= */
+  .question-form { display: flex; flex-direction: column; gap: 10px; }
+  .question-form textarea {
+    width: 100%; padding: 12px 14px;
+    border: 3px solid var(--c-line);
+    background: var(--c-bg);
+    color: var(--c-text);
+    font-family: inherit; font-size: 1rem;
+    resize: vertical; min-height: 90px;
+  }
+  .question-form textarea:focus { outline: none; border-color: var(--c-yellow); }
+  .question-form-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .anon-check { display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; cursor: pointer; }
+  .anon-check input { width: 18px; height: 18px; }
+  .question-form .btn { width: auto; padding: 10px 18px; font-size: 0.78rem; }
+  .q-sent {
+    text-align: center; padding: 16px;
+    background: var(--c-bg);
+    border: 3px dashed var(--c-green);
+    color: var(--c-green);
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.78rem;
+    display: none;
+  }
+  .q-sent.show { display: block; }
+
+  /* ========= Quest Card (download) ========= */
+  .quest-card {
+    background: linear-gradient(135deg, var(--c-bg-2), var(--c-bg-3));
+    border: 4px solid var(--c-yellow);
+    padding: 22px 18px;
+    margin: 16px 0;
+    position: relative;
+  }
+  .quest-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 6px;
+    background: var(--c-pink);
+  }
+  .quest-card .qc-eyebrow {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.7rem; color: var(--c-yellow);
+    letter-spacing: .15em;
+  }
+  .quest-card .qc-title {
+    font-family: 'Press Start 2P', monospace;
+    color: var(--c-text); font-size: 1rem; margin: 4px 0 14px;
+  }
+  .quest-card .qc-line { margin-bottom: 10px; font-size: 0.95rem; }
+  .quest-card .qc-line strong {
+    display: block; font-family: 'Press Start 2P', monospace;
+    font-size: 0.7rem; color: var(--c-pink); margin-bottom: 4px;
+  }
+  .quest-card .qc-foot {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 2px dashed var(--c-line);
+    display: flex; justify-content: space-between;
+    color: var(--c-mute); font-size: 0.85rem;
+  }
+
+  /* utils */
+  .text-mute { color: var(--c-mute); font-size: 0.88rem; }
+  .text-yellow { color: var(--c-yellow); }
+  .text-pink { color: var(--c-pink); }
+  .text-green { color: var(--c-green); }
+  .divider { height: 2px; background: var(--c-line); margin: 16px 0; border: none; }
+
+  /* footer */
+  .footer {
+    text-align: center; padding: 22px 16px;
+    color: var(--c-mute); font-size: 0.82rem;
+  }
+  .footer strong { color: var(--c-yellow); }
+</style>
+</head>
+<body>
+<a href="#main" style="position:absolute;top:-100px;left:16px;padding:8px 16px;background:var(--c-pink);color:white;z-index:9999" onfocus="this.style.top='16px'" onblur="this.style.top='-100px'">跳到主內容</a>
+
+<div class="top-stripe"></div>
+
+<header class="hero">
+  <div class="hero-eyebrow pixel">GAME START</div>
+  <h1>POLICY ARCADE</h1>
+  <p class="hero-sub">用有趣有效的方式 ・ 推動嚴肅的政策</p>
+  <p class="hero-tagline pixel">遊戲化 × AI × 公共政策</p>
+</header>
+
+<div class="hud" id="hud">
+  <span class="lvl">LV<span id="hud-lvl">1</span></span>
+  <span>·</span>
+  <span class="exp">EXP<span id="hud-exp">0</span>/41</span>
+  <span>·</span>
+  <span class="coin">$</span>
+  <span id="hud-coin">0</span>
+</div>
+
+<main id="main">
+
+  <!-- ============ TAB 1: START ============ -->
+  <section id="tab-start" class="tab-section active" role="tabpanel">
+    <div class="stage-banner">
+      <span class="stg pixel">STAGE 0</span>
+      <span class="lvl-tag pixel">PROLOGUE</span>
+      <span class="right">課程任務資訊</span>
+    </div>
+
+    <div class="panel">
+      <div class="grid-2" style="margin-bottom:14px">
+        <div>
+          <div class="text-yellow pixel" style="font-size:0.7rem; letter-spacing:.1em; margin-bottom:6px">[ QUEST ]</div>
+          <div style="font-family:'Press Start 2P',monospace; font-size:0.86rem; color:var(--c-text); line-height:1.6">▶ 用有趣有效的<br>方式推動嚴肅的政策</div>
+          <div class="text-mute" style="margin-top:6px">用遊戲化與AI加速政策推動</div>
+        </div>
+        <div style="font-size:0.9rem; line-height:2">
+          <div class="text-pink pixel" style="font-size:0.7rem; letter-spacing:.1em">[ GUILD ]</div>
+          <div>公共行政暨政策學系</div>
+          <div class="text-pink pixel" style="font-size:0.7rem; letter-spacing:.1em; margin-top:8px">[ MAP ]</div>
+          <div>NTPU · 三峽副本 · 資1F09</div>
+          <div class="text-pink pixel" style="font-size:0.7rem; letter-spacing:.1em; margin-top:8px">[ TODAY'S MISSION ]</div>
+          <div>國際遊戲化政策案例與 AI 應用</div>
+        </div>
+      </div>
+
+      <div class="quote-box">
+        <strong>本日通關目標：</strong>學完今天可以(1)說得出 PBL/Octalysis/SDT 三個框架；
+        (2)舉得出 3 個國際案例；(3)針對自己關心的議題提出一個遊戲化 + AI 設計提案。
+      </div>
+    </div>
+
+    <div class="panel green">
+      <h2 class="panel-title pixel">▶ PRESS START · 報到</h2>
+      <p class="panel-desc">資料用於課堂統計與小組任務分組，不對外公開。報到 <span class="text-yellow">+5 EXP</span></p>
+      <div class="live-count" id="live-count" style="display:none">
+        <span id="live-count-text">已 0 位玩家入場</span>
+      </div>
+
+      <div id="register-form">
+        <div class="field">
+          <label>玩家姓名 <span class="req">*</span></label>
+          <input id="f-name" type="text" maxlength="30" placeholder="例如：陳小明">
+        </div>
+        <div class="grid-2">
+          <div class="field">
+            <label>學號 / ID</label>
+            <input id="f-sid" type="text" maxlength="20" placeholder="例如：411234567">
+          </div>
+          <div class="field">
+            <label>小組</label>
+            <input id="f-team" type="text" maxlength="10" placeholder="例如：A 組">
+          </div>
+        </div>
+
+        <div class="field">
+          <label>選擇你的職業</label>
+          <div class="role-grid" id="role-grid">
+            <button class="role-card" data-role="賢者 SAGE">
+              <div class="role-icon">📚</div>
+              <div class="role-name">賢者 SAGE</div>
+              <div class="role-desc">分析・研究・出謀劃策</div>
+            </button>
+            <button class="role-card" data-role="騎士 KNIGHT">
+              <div class="role-icon">⚔️</div>
+              <div class="role-name">騎士 KNIGHT</div>
+              <div class="role-desc">執行・落地・破難關</div>
+            </button>
+            <button class="role-card" data-role="吟遊 BARD">
+              <div class="role-icon">🎤</div>
+              <div class="role-name">吟遊 BARD</div>
+              <div class="role-desc">溝通・說故事・帶風向</div>
+            </button>
+            <button class="role-card" data-role="工匠 ARTISAN">
+              <div class="role-icon">🛠️</div>
+              <div class="role-name">工匠 ARTISAN</div>
+              <div class="role-desc">設計・原型・做工具</div>
+            </button>
+            <button class="role-card" data-role="賽手 RACER">
+              <div class="role-icon">🏁</div>
+              <div class="role-name">賽手 RACER</div>
+              <div class="role-desc">速度・量化・看 KPI</div>
+            </button>
+            <button class="role-card" data-role="守護 GUARDIAN">
+              <div class="role-icon">🛡️</div>
+              <div class="role-name">守護 GUARDIAN</div>
+              <div class="role-desc">倫理・公平・看風險</div>
+            </button>
+          </div>
+        </div>
+        <div class="field">
+          <label>聯絡方式</label>
+          <input id="f-contact" type="text" maxlength="60" placeholder="LINE / 手機 / Email（選填）">
+        </div>
+
+        <button class="btn green" id="btn-register">▶ INSERT COIN</button>
+      </div>
+
+      <div id="register-done" style="display:none">
+        <div style="text-align:center; padding:22px 14px; background:var(--c-bg); border:3px dashed var(--c-green)">
+          <div style="font-size:2.4rem">🎮</div>
+          <div class="pixel" style="color:var(--c-yellow); font-size:1rem; margin:6px 0 4px" id="welcome-title">PLAYER 1 READY</div>
+          <p class="text-mute">嗨 <span id="welcome-name" class="text-yellow"></span>，<span id="welcome-role"></span> 已上場！</p>
+          <button class="btn secondary small" onclick="startEdit()">修改資料</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3 class="panel-title pixel">☆ TODAY'S QUEST</h3>
+      <div style="display:grid; gap:8px">
+        <div class="info-card pink">
+          <div class="ic-num">STAGE 1</div>
+          <div class="ic-desc">概念暖身：什麼是政策遊戲化？（PBL / Octalysis / SDT）</div>
+        </div>
+        <div class="info-card green">
+          <div class="ic-num">STAGE 2</div>
+          <div class="ic-desc">國際案例巡禮：7 國 7 招政策遊戲化實戰</div>
+        </div>
+        <div class="info-card blue">
+          <div class="ic-num">STAGE 3</div>
+          <div class="ic-desc">BOSS LEVEL：AI × 遊戲化的下一步</div>
+        </div>
+        <div class="info-card yellow">
+          <div class="ic-num">STAGE 4</div>
+          <div class="ic-desc">YOUR QUEST：小組任務 — 為你關心的政策設計介入方案</div>
+        </div>
+      </div>
+      <p class="text-mute" style="margin-top:14px; text-align:center">→ 完成本關之後解鎖：用遊戲化思維談你關心的政策</p>
+    </div>
+
+    <div class="panel blue">
+      <h3 class="panel-title pixel">WARM-UP · 你玩過嗎？</h3>
+      <p class="panel-desc">Mario / Pokémon GO / Duolingo / 動物森友會 / 記帳城市 / 發票怪獸... 這些設計，搬得到政策上嗎？</p>
+      <div class="grid-3" style="gap:8px">
+        <div class="info-card pink"><div class="ic-title">🔥 Streaks</div><div class="ic-desc">每天連續打卡</div></div>
+        <div class="info-card green"><div class="ic-title">🏅 Badges</div><div class="ic-desc">收集徽章</div></div>
+        <div class="info-card blue"><div class="ic-title">📊 Leaderboards</div><div class="ic-desc">排行榜競爭</div></div>
+        <div class="info-card yellow"><div class="ic-title">📋 Daily Quest</div><div class="ic-desc">每日任務</div></div>
+        <div class="info-card pink"><div class="ic-title">⬆ Level Up</div><div class="ic-desc">升級・解鎖</div></div>
+        <div class="info-card green"><div class="ic-title">🏆 Achievement</div><div class="ic-desc">成就系統</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TAB 2: 概念 ============ -->
+  <section id="tab-concept" class="tab-section" role="tabpanel">
+    <div class="stage-banner">
+      <span class="stg pixel">STAGE 1</span>
+      <span class="lvl-tag pixel">CONCEPT</span>
+      <span class="right">概念暖身</span>
+    </div>
+
+    <div class="panel">
+      <h2 class="panel-title pixel">DEFINITION ／ 遊戲化是什麼？</h2>
+      <div class="quote-box">
+        <strong>"在非遊戲情境中，使用遊戲設計元素與遊戲機制，以提升使用者參與、行為改變或解決問題的設計實踐。"</strong>
+        <div class="text-mute" style="margin-top:6px">— Deterding et al. (2011) ／ 修改自 Werbach & Hunter</div>
+      </div>
+      <div class="grid-3">
+        <div class="info-card green">
+          <div class="ic-num">1</div>
+          <div class="ic-title">非遊戲情境</div>
+          <div class="ic-desc">Non-game context</div>
+        </div>
+        <div class="info-card blue">
+          <div class="ic-num">2</div>
+          <div class="ic-title">遊戲機制</div>
+          <div class="ic-desc">Game mechanics</div>
+        </div>
+        <div class="info-card yellow">
+          <div class="ic-num">3</div>
+          <div class="ic-title">改變行為</div>
+          <div class="ic-desc">Behavior change</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel pink">
+      <h2 class="panel-title pixel">⚠ BOSS CHECK · 別搞混！</h2>
+      <div class="grid-3">
+        <div class="info-card pink">
+          <div class="ic-title">遊戲化 Gamification</div>
+          <div class="ic-desc">把遊戲元素加進非遊戲場景。<br>例：步數挑戰、限速彩票、發票對獎<br><span class="text-pink"><strong>目的：</strong>促進行動 / 改變習慣</span></div>
+        </div>
+        <div class="info-card green">
+          <div class="ic-title">嚴肅遊戲 Serious Games</div>
+          <div class="ic-desc">本身就是完整遊戲，目的不只是娛樂。<br>例：軍事模擬、災害演練、Foldit<br><span class="text-green"><strong>目的：</strong>訓練 / 研究 / 模擬</span></div>
+        </div>
+        <div class="info-card blue">
+          <div class="ic-title">教育遊戲 Educational</div>
+          <div class="ic-desc">為了學習特定知識而設計的遊戲。<br>例：地理拼圖、Kahoot 答題<br><span class="text-yellow"><strong>目的：</strong>學習特定內容</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2 class="panel-title pixel">CORE MECHANICS · PBL 三件套</h2>
+      <p class="panel-desc">Points · Badges · Leaderboards — 但 PBL 只是表面，真正關鍵在「動機設計」。</p>
+      <div style="display:grid; gap:10px">
+        <div class="info-card pink">
+          <div class="ic-num" style="background:var(--c-pink); color:var(--c-text)">P</div>
+          <div class="ic-title">POINTS 點數</div>
+          <div class="ic-desc">可量化的進度與努力訊號。例：步數、減碳量、發票獎金額</div>
+        </div>
+        <div class="info-card green">
+          <div class="ic-num" style="background:var(--c-green); color:var(--c-bg)">B</div>
+          <div class="ic-title">BADGES 徽章</div>
+          <div class="ic-desc">達成里程碑的視覺紀念。例：志工時數證明、健保預防保健徽章</div>
+        </div>
+        <div class="info-card blue">
+          <div class="ic-num" style="background:var(--c-blue); color:var(--c-bg)">L</div>
+          <div class="ic-title">LEADERBOARDS 排行榜</div>
+          <div class="ic-desc">社會比較與競爭。⚠ 對某些族群可能反效果。例：縣市減碳排行</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel yellow">
+      <h2 class="panel-title pixel">OCTALYSIS · 八角分析</h2>
+      <p class="panel-desc">Yu-kai Chou 行為背後的 8 種核心驅動力 — 設計政策時的「動機菜單」。</p>
+      <div class="grid-4" style="gap:8px">
+        <div class="info-card pink"><div class="ic-num">1</div><div class="ic-title">意義感</div><div class="ic-desc">Epic Meaning ・ 我在做大於自己的事</div></div>
+        <div class="info-card green"><div class="ic-num">2</div><div class="ic-title">成就感</div><div class="ic-desc">Accomplishment ・ 升級 / 解鎖</div></div>
+        <div class="info-card blue"><div class="ic-num">3</div><div class="ic-title">創造力</div><div class="ic-desc">Empowerment ・ 自由設計</div></div>
+        <div class="info-card yellow"><div class="ic-num">4</div><div class="ic-title">擁有感</div><div class="ic-desc">Ownership ・ 累積資產</div></div>
+        <div class="info-card pink"><div class="ic-num">5</div><div class="ic-title">社交影響</div><div class="ic-desc">Social ・ 被同儕看見</div></div>
+        <div class="info-card green"><div class="ic-num">6</div><div class="ic-title">稀缺性</div><div class="ic-desc">Scarcity ・ 限時限量</div></div>
+        <div class="info-card blue"><div class="ic-num">7</div><div class="ic-title">未知感</div><div class="ic-desc">Unpredictability ・ 抽獎驚喜</div></div>
+        <div class="info-card yellow"><div class="ic-num">8</div><div class="ic-title">失去感</div><div class="ic-desc">Avoidance ・ 不參加會吃虧</div></div>
+      </div>
+      <div style="margin-top:14px">
+        <a class="resource-link" href="https://yukaichou.com/gamification-examples/octalysis-complete-gamification-framework/" target="_blank" rel="noopener">Yu-kai Chou Octalysis 完整框架</a>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2 class="panel-title pixel">SDT · 自我決定論</h2>
+      <p class="panel-desc">好的政策遊戲化 = 滋養「內在動機」，而不是只用「胡蘿蔔與棒子」。</p>
+      <div class="grid-3">
+        <div class="info-card pink">
+          <div class="ic-num" style="background:var(--c-pink); color:var(--c-text); font-size:1.2rem; width:38px; height:38px">A</div>
+          <div class="ic-title">自主感 AUTONOMY</div>
+          <div class="ic-desc">我是自己選擇要做的，不是被強迫。<br><strong class="text-yellow">→ 政策設計：</strong>給選項，而非單一路徑</div>
+        </div>
+        <div class="info-card green">
+          <div class="ic-num" style="background:var(--c-green); color:var(--c-bg); font-size:1.2rem; width:38px; height:38px">C</div>
+          <div class="ic-title">勝任感 COMPETENCE</div>
+          <div class="ic-desc">難度剛好 — 不會太簡單也不會太難。<br><strong class="text-yellow">→ 政策設計：</strong>分級任務，逐步上手</div>
+        </div>
+        <div class="info-card blue">
+          <div class="ic-num" style="background:var(--c-blue); color:var(--c-bg); font-size:1.2rem; width:38px; height:38px">R</div>
+          <div class="ic-title">關係感 RELATEDNESS</div>
+          <div class="ic-desc">我感覺與他人 / 社群有連結。<br><strong class="text-yellow">→ 政策設計：</strong>團隊任務、社區挑戰</div>
+        </div>
+      </div>
+      <div style="margin-top:12px">
+        <a class="resource-link" href="https://selfdeterminationtheory.org/" target="_blank" rel="noopener">selfdeterminationtheory.org</a>
+        <a class="resource-link paper" href="https://dl.acm.org/doi/10.1145/2181037.2181040" target="_blank" rel="noopener">Deterding 2011 paper (ACM)</a>
+      </div>
+    </div>
+
+    <div class="panel pink">
+      <h2 class="panel-title pixel">⚠ WARNING · 遊戲化不是萬靈丹</h2>
+      <div class="grid-2">
+        <div class="info-card pink"><div class="ic-title">過度外在化</div><div class="ic-desc">把原本有意義的事，做成「為點數而做」</div></div>
+        <div class="info-card pink"><div class="ic-title">只刷指標</div><div class="ic-desc">上有政策，下有對策 — 玩家最會找漏洞</div></div>
+        <div class="info-card yellow"><div class="ic-title">排行榜傷人</div><div class="ic-desc">對落後者反成羞辱；對少數族群可能歧視</div></div>
+        <div class="info-card blue"><div class="ic-title">隱私與監控</div><div class="ic-desc">蒐集行為資料的邊界在哪？同意機制？</div></div>
+        <div class="info-card green"><div class="ic-title">公平性問題</div><div class="ic-desc">沒手機 / 不會用 App 的人怎麼辦？</div></div>
+        <div class="info-card pink"><div class="ic-title">遊戲疲勞</div><div class="ic-desc">新鮮感過了之後，留存率往往斷崖式下跌</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TAB 3: 7 國案例 ============ -->
+  <section id="tab-cases" class="tab-section" role="tabpanel">
+    <div class="stage-banner">
+      <span class="stg pixel">STAGE 2</span>
+      <span class="lvl-tag pixel">CASE TOUR</span>
+      <span class="right">7 國案例巡禮</span>
+    </div>
+
+    <div class="panel">
+      <p class="panel-desc">點開每個案例展開細節 + 外部資源連結。看完所有案例 +1 EXP each（最多 +8）。</p>
+    </div>
+
+    <!-- CASE 1: SWEDEN -->
+    <div class="case" data-case="se">
+      <div class="case-header" onclick="toggleCase('se')">
+        <div class="case-flag pixel">SE</div>
+        <div>
+          <div class="case-title">瑞典 ・ The Speed Camera Lottery</div>
+          <div class="case-sub">把守規則的人，丟進樂透抽獎池</div>
+        </div>
+        <div class="case-toggle">+</div>
+      </div>
+      <div class="case-body">
+        <h4>★ 問題</h4>
+        <p>傳統超速管理：超速→罰錢→抱怨→下次還是超速。能不能反過來「獎勵守規矩的人」？</p>
+
+        <h4>★ 機制設計（VW Fun Theory × 瑞典 NSRS, 2010）</h4>
+        <ul>
+          <li>拍照測速 → 違規者罰款（款項進入「獎金池」）</li>
+          <li>守法者自動獲抽獎券 → 公開抽獎 → 中獎變「英雄榜」</li>
+          <li>關鍵：把「逃過罰款」翻轉成「錯過抽獎」 — 損失迴避變正向動機</li>
+        </ul>
+
+        <h4>★ 成果</h4>
+        <span class="num-big pink">22%</span> 平均速度下降（32→25 km/h，斯德哥爾摩三天試辦）<br>
+        獲 VW Fun Theory 比賽首獎 ・ 啟發後續 UBI 保險、車內 App。
+
+        <h4>★ 關鍵啟示</h4>
+        <ul>
+          <li>框架翻轉：從「懲罰違規」翻成「獎勵守法」</li>
+          <li>未知感（Octalysis #7）：抽獎比固定獎勵有效</li>
+          <li>反思：可持續性 — 三天試辦 ≠ 長期政策</li>
+        </ul>
+
+        <h4>★ 延伸資源</h4>
+        <div class="resource-row">
+          <a class="resource-link video" href="https://www.youtube.com/watch?v=iynzHWwJXaA" target="_blank" rel="noopener">YouTube 原始影片</a>
+          <a class="resource-link" href="https://en.wikipedia.org/wiki/The_Fun_Theory" target="_blank" rel="noopener">The Fun Theory 維基</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CASE 2: SINGAPORE -->
+    <div class="case" data-case="sg">
+      <div class="case-header" onclick="toggleCase('sg')">
+        <div class="case-flag pixel">SG</div>
+        <div>
+          <div class="case-title">新加坡 ・ Healthy 365 / National Steps Challenge</div>
+          <div class="case-sub">把全國當作一個健身房</div>
+        </div>
+        <div class="case-toggle">+</div>
+      </div>
+      <div class="case-body">
+        <h4>★ 脈絡</h4>
+        <p>人口 600 萬 ・ 高齡化 + 糖尿病盛行率亞洲名列前茅 ・ 政府目標 2025 每人每天 ≥10,000 步。</p>
+
+        <h4>★ 機制（HPB · 2015–）</h4>
+        <ul>
+          <li>免費發送計步器 / 連動手環 — 硬體門檻歸零</li>
+          <li>每日步數即時看見（Healthy 365 App）</li>
+          <li>分級任務：5,000 / 7,500 / 10,000 步</li>
+          <li>實體點數可換食物 / 折扣（連結商家網絡）</li>
+          <li>團體挑戰 / 同事 PK</li>
+          <li>與健康保險、企業福利接軌</li>
+        </ul>
+
+        <h4>★ 成果</h4>
+        <span class="num-big">696,907</span> 報名挑戰賽人數<br>
+        <span class="num-big green">+1,579</span> 主活動期間平均日步數增加<br>
+        <span class="num-big green">+934</span> 維持期平均日步數增加（10 年迭代至今）
+
+        <h4>★ 關鍵啟示</h4>
+        <ul>
+          <li>免費降門檻：公部門「補硬體」直接消除參與障礙</li>
+          <li>實體獎勵閉環：點數 → 真折扣 = 共同利益網絡</li>
+          <li>10 年迭代版本 v1.0 → v9.0 — 不是一次性活動</li>
+          <li>跨部門整合：衛生 × 商業 × 雇主 × 保險</li>
+        </ul>
+
+        <h4>★ 延伸資源</h4>
+        <div class="resource-row">
+          <a class="resource-link" href="https://www.healthhub.sg/programmes/nsc" target="_blank" rel="noopener">Healthy 365 官網</a>
+          <a class="resource-link" href="https://hpb.gov.sg/healthy-living/national-steps-challenge" target="_blank" rel="noopener">HPB National Steps Challenge</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CASE 3: KOREA -->
+    <div class="case" data-case="kr">
+      <div class="case-header" onclick="toggleCase('kr')">
+        <div class="case-flag pixel">KR</div>
+        <div>
+          <div class="case-title">韓國 ・ Eco Mileage / Carbon Neutral Point</div>
+          <div class="case-sub">省下的每度電都換成里程</div>
+        </div>
+        <div class="case-toggle">+</div>
+      </div>
+      <div class="case-body">
+        <h4>★ 政策目標</h4>
+        <p>「2050 淨零」國家承諾市民層級實作。首爾 Eco Mileage (2009-) ／ 中央 Carbon Neutral Point (CNPS)。</p>
+
+        <h4>★ 機制流程</h4>
+        <ul>
+          <li>市民登記（綁定家戶帳號）</li>
+          <li>每 6 個月比較電/水/瓦斯使用</li>
+          <li>2 項減少 5% 即達標</li>
+          <li>依減碳量發放點數，上限 50,000 點</li>
+          <li>兌換環保商品 / 大樓管理費折扣 / 公益捐贈</li>
+        </ul>
+
+        <h4>★ 成果</h4>
+        <span class="num-big">186 萬</span> 自願參與市民（≈ 首爾人口 1/6）
+
+        <h4>★ 關鍵啟示</h4>
+        <ul>
+          <li>以「家戶」為單位 — 用同住者社會壓力，比個人版有效</li>
+          <li>以節省為基準（與自己過去比）— 比與別人比更公平、更可持續</li>
+          <li>跨部門資料串接（電/水/瓦斯三表）= 公部門資料治理是基礎</li>
+          <li>地方 + 中央雙軌：首爾試點 → 中央放大</li>
+        </ul>
+
+        <h4>★ 延伸資源</h4>
+        <div class="resource-row">
+          <a class="resource-link" href="https://ecomileage.seoul.go.kr/" target="_blank" rel="noopener">首爾 Eco Mileage</a>
+          <a class="resource-link" href="https://www.cpoint.or.kr/" target="_blank" rel="noopener">韓國 CNPS 碳積點</a>
+          <a class="resource-link" href="https://greenpoint.epa.gov.tw/" target="_blank" rel="noopener">台灣綠點 (EPA · 對照組)</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CASE 4: ESTONIA -->
+    <div class="case" data-case="ee">
+      <div class="case-header" onclick="toggleCase('ee')">
+        <div class="case-flag pixel">EE</div>
+        <div>
+          <div class="case-title">愛沙尼亞 ・ Bürokratt / AI 數位行政助理</div>
+          <div class="case-sub">用 AI 當「政府的單一聊天窗口」</div>
+        </div>
+        <div class="case-toggle">+</div>
+      </div>
+      <div class="case-body">
+        <h4>★ 100% 數位的小國</h4>
+        <p>人口 130 萬 ・ 99% 公共服務可線上辦理（只剩結婚/離婚/買房要親自到場）。基礎建設：e-ID / X-Road / Bürokratt / Open Source。</p>
+
+        <h4>★ Bürokratt 怎麼運作</h4>
+        <ul>
+          <li><strong class="text-yellow">單一窗口</strong>：市民在一個聊天介面提問，AI 自動轉介給對應部會</li>
+          <li><strong class="text-yellow">AI 助理網路</strong>：不是單一巨型模型，而是「部會 Bot」協作（避免單點失敗）</li>
+          <li><strong class="text-yellow">逐步深化</strong>：FAQ → 表單填寫 → 自動辦理</li>
+          <li><strong class="text-yellow">Open source</strong>：架構開放，可被審視 = 信任基礎</li>
+          <li><strong class="text-yellow">人類接手</strong>：AI 不確定時自動轉真人客服</li>
+        </ul>
+
+        <h4>★ 全 AI 應用</h4>
+        <p>醫療(電子病歷+AI診斷預警)・交通(AI 號誌調整)・稅務(自動退稅)・教育(個人化學習)・司法(小額民事 AI 初判)・災防(火災洪水偵測)。</p>
+
+        <h4>★ 關鍵啟示</h4>
+        <ul>
+          <li>先把資料修好（X-Road 是基礎建設）— 沒它再多 AI 也是空中樓閣</li>
+          <li>分散式而非中央化：多個小 AI 比一個大 AI 安全</li>
+          <li>Open source 養信任 ・ AI + 人類 = 黃金組合</li>
+          <li>小國也能領先 — 規模小反而試錯快</li>
+        </ul>
+
+        <h4>★ 延伸資源</h4>
+        <div class="resource-row">
+          <a class="resource-link" href="https://www.kratid.ee/en" target="_blank" rel="noopener">Bürokratt 官網 (EN)</a>
+          <a class="resource-link gh" href="https://github.com/buerokratt" target="_blank" rel="noopener">Bürokratt GitHub</a>
+          <a class="resource-link" href="https://e-estonia.com/" target="_blank" rel="noopener">e-Estonia 全景</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CASE 5: USA Foldit -->
+    <div class="case" data-case="us">
+      <div class="case-header" onclick="toggleCase('us')">
+        <div class="case-flag pixel">US</div>
+        <div>
+          <div class="case-title">美國 ・ Foldit / 公民科學遊戲</div>
+          <div class="case-sub">讓全世界玩家幫科學家解謎</div>
+        </div>
+        <div class="case-toggle">+</div>
+      </div>
+      <div class="case-body">
+        <h4>★ 問題</h4>
+        <p>蛋白質形狀決定功能（疾病/藥物源頭），但「找最低能量摺疊」搜尋空間極大。傳統解法用 15 年解不開 1 個關鍵蛋白質。研究團隊問：「人類玩家的空間直覺，是不是還比電腦強？」</p>
+
+        <h4>★ 怎麼變遊戲</h4>
+        <ul>
+          <li>拋掉術語：不講 hydrogen bond，講「wiggle / shake / freeze」</li>
+          <li>3D 拼圖介面：拖、拉、轉 — 不用懂化學</li>
+          <li>即時分數 + 排行榜 + 團體賽</li>
+          <li>真實成果：你的解可能被科學家採用、發表</li>
+        </ul>
+
+        <h4>★ 突破</h4>
+        <p><strong class="text-pink">M-PMV 蛋白質（猴 AIDS 病毒結構）</strong></p>
+        <span class="num-big pink">15 年</span> 科學家做不出來<br>
+        <span class="num-big green">10 天</span> 玩家解開了<br>
+        24 萬+ 玩家 ・ 多篇論文掛玩家為共同作者。
+
+        <h4>★ 關鍵啟示</h4>
+        <ul>
+          <li>問題重新包裝：嚴肅問題的「玩法翻譯」是核心</li>
+          <li>真實的意義感：玩家不為點數玩，是因為知道自己幫到科學</li>
+          <li>人類 + 機器互補：電腦算暴力解，人類給直覺解</li>
+          <li>啟示：政策議題能不能也包裝成大家可解的遊戲？</li>
+        </ul>
+
+        <h4>★ 延伸資源</h4>
+        <div class="resource-row">
+          <a class="resource-link" href="https://fold.it/" target="_blank" rel="noopener">Foldit 官網</a>
+          <a class="resource-link" href="https://en.wikipedia.org/wiki/Foldit" target="_blank" rel="noopener">Foldit Wikipedia</a>
+          <a class="resource-link paper" href="https://www.nature.com/articles/nsmb.2119" target="_blank" rel="noopener">M-PMV 原始論文 (Nature)</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CASE 6: TAIWAN -->
+    <div class="case" data-case="tw">
+      <div class="case-header" onclick="toggleCase('tw')">
+        <div class="case-flag pixel">TW</div>
+        <div>
+          <div class="case-title">台灣 ・ vTaiwan / Pol.is</div>
+          <div class="case-sub">把找共識變成正向遊戲</div>
+        </div>
+        <div class="case-toggle">+</div>
+      </div>
+      <div class="case-body">
+        <h4>★ 脈絡</h4>
+        <p>2014 太陽花後 — 民眾要更直接、更透明的決策過程。但網路討論常陷入立場對抗。<br>g0v 社群 → 唐鳳入閣 → vTaiwan 平台 (2015) → Pol.is 演算法。</p>
+
+        <h4>★ Pol.is 怎麼遊戲化共識</h4>
+        <ul>
+          <li><strong class="text-yellow">不能留言只能投票</strong>：對議題的具體陳述「同意/不同意/跳過」 — 沒有罵戰空間</li>
+          <li><strong class="text-yellow">視覺化分群</strong>：演算法把人聚成「群」 — 你看得到自己屬於哪群</li>
+          <li><strong class="text-yellow">獎勵跨群共識</strong>：你寫的句子讓不同群的人都同意 → 「升等」、被推上版面</li>
+          <li><strong class="text-yellow">隱藏挑釁</strong>：酸言酸語沒人按同意 → 自然沉到底</li>
+          <li><strong class="text-yellow">結果可被政府引用</strong>：高共識結論直接送進立法 / 行政對話</li>
+        </ul>
+
+        <h4>★ 成果</h4>
+        <span class="num-big">26</span> 件議題上線（2015-2018）<br>
+        <span class="num-big green">80%</span> 有具體政府行動回應（立法/行政命令）<br>
+        <span class="num-big pink">12+</span> 件法律/法規修訂<br>
+        Pol.is 國際輸出：美 / 日 / 法 / 加 / 歐盟採用。最有名案例：Uber 在台落地監理規則 / 線上酒精飲料販售。
+
+        <h4>★ 關鍵啟示</h4>
+        <ul>
+          <li>設計激勵向上：讓「能促進共識」的人被看見，而不是聲量大的人</li>
+          <li>演算法正向使用：同樣是分群推薦，可以做成極化、也可以做成橋接</li>
+          <li>公民駭客 + 政府：政府不是唯一玩家</li>
+          <li>透明可審視：所有資料公開、開源 = 正當性基礎</li>
+        </ul>
+
+        <h4>★ 延伸資源</h4>
+        <div class="resource-row">
+          <a class="resource-link" href="https://www.vtaiwan.tw/" target="_blank" rel="noopener">vTaiwan 官網</a>
+          <a class="resource-link" href="https://pol.is/home" target="_blank" rel="noopener">Pol.is 平台</a>
+          <a class="resource-link" href="https://g0v.tw/" target="_blank" rel="noopener">g0v 社群</a>
+          <a class="resource-link gh" href="https://github.com/compdemocracy/polis" target="_blank" rel="noopener">Pol.is GitHub</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CASE 7: UK BIT -->
+    <div class="case" data-case="uk">
+      <div class="case-header" onclick="toggleCase('uk')">
+        <div class="case-flag pixel">UK</div>
+        <div>
+          <div class="case-title">英國 ・ Behavioural Insights Team</div>
+          <div class="case-sub">推一下，世界就動一下</div>
+        </div>
+        <div class="case-toggle">+</div>
+      </div>
+      <div class="case-body">
+        <h4>★ 脈絡</h4>
+        <p>2010 年成立於英國首相辦公室，後分拆為社會企業，仍與政府緊密合作。把行為科學變成行政能力。</p>
+
+        <h4>★ 經典實驗</h4>
+        <ul>
+          <li><strong>RCT 文化</strong>：用隨機對照實驗驗證每個政策設計</li>
+          <li><strong>求職輔導改寫</strong>：「上週找了什麼工作」改成「下週要做什麼」 → 提早 2-4 天回到職場</li>
+          <li><strong>抗生素開立</strong>：告訴高開立率醫師「你比同儕多開」→ 開立率顯著下降</li>
+          <li><strong>稅務逾期信</strong>：信中加上「您鄰居 9 成已繳」→ 繳交率提高</li>
+        </ul>
+
+        <h4>★ 關鍵啟示</h4>
+        <ul>
+          <li>小改變大效果：改幾個字、換個排版 — 不一定要大改</li>
+          <li>用實驗證據說話：政策修訂附 RCT 結果，公部門也能像新創 A/B test</li>
+          <li>道德邊界：推力與操控只一線之隔 — 必須明示、可拒絕、不傷自主</li>
+          <li>BIT 模式被 50+ 國複製，建立各自 Behavioural Unit</li>
+          <li>留意副作用：對 DWP 的福利懲罰研究指出，推力過頭反而傷害弱勢</li>
+        </ul>
+
+        <h4>★ 延伸資源</h4>
+        <div class="resource-row">
+          <a class="resource-link" href="https://www.bi.team/" target="_blank" rel="noopener">BIT 官網</a>
+          <a class="resource-link" href="https://en.wikipedia.org/wiki/Behavioural_Insights_Team" target="_blank" rel="noopener">BIT 維基</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- BONUS: Duolingo -->
+    <div class="case" data-case="duo">
+      <div class="case-header" onclick="toggleCase('duo')">
+        <div class="case-flag pixel" style="color:var(--c-green); border-color:var(--c-green)">★</div>
+        <div>
+          <div class="case-title">BONUS ・ Duolingo</div>
+          <div class="case-sub">私部門也能做公共政策（教育普及）</div>
+        </div>
+        <div class="case-toggle">+</div>
+      </div>
+      <div class="case-body">
+        <h4>★ 使命</h4>
+        <p>「普及全世界最好的教育」— 私部門把教育當公共財做。</p>
+
+        <h4>★ 數字</h4>
+        <span class="num-big pink">1.28 億</span> 月活使用者 (2025 Q2)<br>
+        <span class="num-big green">55%</span> 用戶留存率（原 12% → 55%）<br>
+        <span class="num-big">20%</span> 每日活躍中連續 365 日的比例<br>
+        <span class="num-big">80%</span> 學生表示喜歡（因為遊戲化）
+
+        <h4>★ 給公部門的問題</h4>
+        <ul>
+          <li>私部門能做到的「日常黏著」 — 公部門可以複製多少？</li>
+          <li>教育、預防醫療、環保 — 哪些公共財最適合用 streak 機制？</li>
+        </ul>
+
+        <h4>★ 延伸資源</h4>
+        <div class="resource-row">
+          <a class="resource-link" href="https://www.duolingo.com/" target="_blank" rel="noopener">Duolingo</a>
+          <a class="resource-link paper" href="https://blog.duolingo.com/streak-statistics/" target="_blank" rel="noopener">Duolingo Streak 數據</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel green">
+      <h3 class="panel-title pixel">RECAP · 一張表看七招</h3>
+      <div style="overflow-x:auto">
+      <table style="width:100%; border-collapse:collapse; font-size:0.86rem">
+        <thead>
+          <tr style="background:var(--c-bg); color:var(--c-yellow)">
+            <th style="padding:8px; text-align:left; border:1px solid var(--c-line)">國家</th>
+            <th style="padding:8px; text-align:left; border:1px solid var(--c-line)">核心機制</th>
+            <th style="padding:8px; text-align:left; border:1px solid var(--c-line)">規模/成效</th>
+            <th style="padding:8px; text-align:left; border:1px solid var(--c-line)">主驅動</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding:8px; border:1px solid var(--c-line)">瑞典</td><td style="padding:8px; border:1px solid var(--c-line)">守法者抽獎</td><td style="padding:8px; border:1px solid var(--c-line)">速度↓22%</td><td style="padding:8px; border:1px solid var(--c-line)">未知+社會</td></tr>
+          <tr><td style="padding:8px; border:1px solid var(--c-line)">新加坡</td><td style="padding:8px; border:1px solid var(--c-line)">步數→點數→實品</td><td style="padding:8px; border:1px solid var(--c-line)">70 萬人</td><td style="padding:8px; border:1px solid var(--c-line)">成就+社會</td></tr>
+          <tr><td style="padding:8px; border:1px solid var(--c-line)">韓國</td><td style="padding:8px; border:1px solid var(--c-line)">節能→里程→折扣</td><td style="padding:8px; border:1px solid var(--c-line)">186 萬人</td><td style="padding:8px; border:1px solid var(--c-line)">擁有+失去</td></tr>
+          <tr><td style="padding:8px; border:1px solid var(--c-line)">愛沙尼亞</td><td style="padding:8px; border:1px solid var(--c-line)">聊天總機 + 多代理</td><td style="padding:8px; border:1px solid var(--c-line)">99% 線上</td><td style="padding:8px; border:1px solid var(--c-line)">創造+意義</td></tr>
+          <tr><td style="padding:8px; border:1px solid var(--c-line)">美國 Foldit</td><td style="padding:8px; border:1px solid var(--c-line)">問題→拼圖</td><td style="padding:8px; border:1px solid var(--c-line)">24 萬玩家</td><td style="padding:8px; border:1px solid var(--c-line)">意義+成就</td></tr>
+          <tr><td style="padding:8px; border:1px solid var(--c-line)">台灣</td><td style="padding:8px; border:1px solid var(--c-line)">Pol.is 共識遊戲化</td><td style="padding:8px; border:1px solid var(--c-line)">26 案 80% 採行</td><td style="padding:8px; border:1px solid var(--c-line)">創造+社會</td></tr>
+          <tr><td style="padding:8px; border:1px solid var(--c-line)">英國 BIT</td><td style="padding:8px; border:1px solid var(--c-line)">RCT 政策實驗</td><td style="padding:8px; border:1px solid var(--c-line)">50+ 國複製</td><td style="padding:8px; border:1px solid var(--c-line)">社會+損失</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TAB 4: BOSS · AI × 政策 ============ -->
+  <section id="tab-boss" class="tab-section" role="tabpanel">
+    <div class="stage-banner">
+      <span class="stg pixel" style="background:var(--c-blue)">STAGE 3</span>
+      <span class="lvl-tag pixel" style="color:var(--c-pink); border-color:var(--c-pink)">BOSS LEVEL</span>
+      <span class="right">AI × 遊戲化下一輪</span>
+    </div>
+
+    <div class="panel blue">
+      <h2 class="panel-title pixel">AI × GAMIFICATION · 1+1 > 2</h2>
+      <div class="grid-2">
+        <div class="info-card pink"><div class="ic-num">1</div><div class="ic-title">個人化難度</div><div class="ic-desc">AI 看你過去資料 → 自動調整任務難度，永遠在「剛剛好」</div></div>
+        <div class="info-card green"><div class="ic-num">2</div><div class="ic-title">即時內容生成</div><div class="ic-desc">生成式 AI 即時產生提示、教練回饋、故事化情境</div></div>
+        <div class="info-card blue"><div class="ic-num">3</div><div class="ic-title">大規模一對一</div><div class="ic-desc">傳統一對一只能少數人 → AI 讓每個市民都有專屬助理</div></div>
+        <div class="info-card yellow"><div class="ic-num">4</div><div class="ic-title">異常自動偵測</div><div class="ic-desc">薅羊毛、刷分、假帳號 — AI 比人更快發現</div></div>
+        <div class="info-card pink"><div class="ic-num">5</div><div class="ic-title">跨語言、跨能力</div><div class="ic-desc">AI 翻譯 + 語音 + 圖示 — 真正普及無障礙</div></div>
+        <div class="info-card green"><div class="ic-num">6</div><div class="ic-title">持續優化</div><div class="ic-desc">AI 持續做 A/B 測試，週週調整效果最好的設計</div></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2 class="panel-title pixel">WHERE AI PLUGS IN · 公共政策的 AI 任務地圖</h2>
+      <div style="display:grid; gap:8px">
+        <div class="info-card pink"><div class="ic-title">🧪 設計階段</div><div class="ic-desc">從歷史資料 / 民意 / 文獻自動生成政策草案、模擬影響評估</div></div>
+        <div class="info-card green"><div class="ic-title">🎤 溝通階段</div><div class="ic-desc">AI 把生硬條文翻成白話文 / 多語版 / 圖像化 / 互動問答</div></div>
+        <div class="info-card blue"><div class="ic-title">🤝 參與階段</div><div class="ic-desc">AI 主持 / 即時翻譯 / 情緒分析 / 共識視覺化（Pol.is 升級版）</div></div>
+        <div class="info-card yellow"><div class="ic-title">⚙️ 執行階段</div><div class="ic-desc">AI 客服 / AI 表單填寫 / AI 預警 / 自動化批次</div></div>
+        <div class="info-card pink"><div class="ic-title">📊 評估階段</div><div class="ic-desc">效果監測、機器學習回測、不公平結果的偵測</div></div>
+      </div>
+    </div>
+
+    <div class="panel pink">
+      <h2 class="panel-title pixel">⚠ AI 加進政策後新增的麻煩</h2>
+      <div class="grid-2">
+        <div class="info-card pink"><div class="ic-title">黑箱與當責</div><div class="ic-desc">AI 決策出錯，誰負責？模型？廠商？公務員？</div></div>
+        <div class="info-card pink"><div class="ic-title">資料偏誤</div><div class="ic-desc">AI 學的是過去 → 過去不公平，未來也不公平</div></div>
+        <div class="info-card yellow"><div class="ic-title">假民意操作</div><div class="ic-desc">生成式 AI 大量產文 → 怎麼分辨真假民意？</div></div>
+        <div class="info-card blue"><div class="ic-title">數位落差</div><div class="ic-desc">不會用、用不到 AI 的人，是否被進一步邊緣化？</div></div>
+        <div class="info-card pink"><div class="ic-title">隱私與監控</div><div class="ic-desc">更個人化 = 更多資料 — 邊界要先畫好</div></div>
+        <div class="info-card green"><div class="ic-title">技術依賴</div><div class="ic-desc">外包給少數廠商 → 主權風險 / 議價力流失</div></div>
+      </div>
+    </div>
+
+    <!-- Octalysis 設計器 -->
+    <div class="tool" id="tool-oct">
+      <div class="tool-eyebrow pixel">🎯 互動工具</div>
+      <h3 class="tool-title">Octalysis 政策設計器</h3>
+      <p class="tool-desc">輸入你關心的政策議題 → 選 1-3 個八角驅動力 → AI 給出設計建議 + 參考國際案例。完成 +10 EXP。</p>
+
+      <button class="btn secondary small" onclick="fillOctSample()" style="width:auto; margin-bottom:14px">📋 看示範填好的範例</button>
+
+      <div class="field">
+        <label>① 你關心的政策議題 <span class="req">*</span></label>
+        <input id="oct-topic" type="text" maxlength="100" placeholder="例如：青年參與地方公共事務、垃圾減量、長照志工招募">
+      </div>
+      <div class="field">
+        <label>② 想用的驅動力（選 1-3 個）</label>
+        <div class="oct-grid" id="oct-drives">
+          <button class="oct-card" data-v="意義感"><div class="oct-num">1</div><div class="oct-name">意義感</div><div class="oct-en">Epic Meaning</div></button>
+          <button class="oct-card" data-v="成就感"><div class="oct-num">2</div><div class="oct-name">成就感</div><div class="oct-en">Accomplishment</div></button>
+          <button class="oct-card" data-v="創造力"><div class="oct-num">3</div><div class="oct-name">創造力</div><div class="oct-en">Empowerment</div></button>
+          <button class="oct-card" data-v="擁有感"><div class="oct-num">4</div><div class="oct-name">擁有感</div><div class="oct-en">Ownership</div></button>
+          <button class="oct-card" data-v="社交影響"><div class="oct-num">5</div><div class="oct-name">社交影響</div><div class="oct-en">Social Influence</div></button>
+          <button class="oct-card" data-v="稀缺性"><div class="oct-num">6</div><div class="oct-name">稀缺性</div><div class="oct-en">Scarcity</div></button>
+          <button class="oct-card" data-v="未知感"><div class="oct-num">7</div><div class="oct-name">未知感</div><div class="oct-en">Unpredictability</div></button>
+          <button class="oct-card" data-v="失去感"><div class="oct-num">8</div><div class="oct-name">失去感</div><div class="oct-en">Avoidance</div></button>
+        </div>
+      </div>
+      <div class="field">
+        <label>③ 想參考的國際案例（選填）</label>
+        <div class="chip-group" data-multi="1" id="oct-refs">
+          <button class="chip" data-v="瑞典超速彩票">瑞典超速彩票</button>
+          <button class="chip" data-v="新加坡 Healthy 365">新加坡 Healthy 365</button>
+          <button class="chip" data-v="韓國 Eco Mileage">韓國 Eco Mileage</button>
+          <button class="chip" data-v="愛沙尼亞 Bürokratt">愛沙尼亞 Bürokratt</button>
+          <button class="chip" data-v="美國 Foldit">美國 Foldit</button>
+          <button class="chip" data-v="台灣 vTaiwan">台灣 vTaiwan</button>
+          <button class="chip" data-v="英國 BIT">英國 BIT</button>
+        </div>
+      </div>
+
+      <button class="btn yellow" onclick="genOctPrompt()">▶ 產生 AI 設計提案 Prompt</button>
+      <textarea class="prompt-output" id="oct-output" readonly placeholder="按上方按鈕產生 Prompt..."></textarea>
+      <div class="btn-row">
+        <button class="btn blue" onclick="copyText('oct-output')">📋 複製 Prompt</button>
+      </div>
+      <div class="ai-links">
+        <a class="ai-link" href="https://chat.openai.com" target="_blank" rel="noopener">→ ChatGPT</a>
+        <a class="ai-link" href="https://claude.ai" target="_blank" rel="noopener">→ Claude</a>
+        <a class="ai-link" href="https://gemini.google.com" target="_blank" rel="noopener">→ Gemini</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TAB 5: 小組任務 ============ -->
+  <section id="tab-quest" class="tab-section" role="tabpanel">
+    <div class="stage-banner">
+      <span class="stg pixel" style="background:var(--c-yellow); color:var(--c-bg)">STAGE 4</span>
+      <span class="lvl-tag pixel">YOUR QUEST</span>
+      <span class="right">小組任務</span>
+    </div>
+
+    <div class="panel yellow">
+      <h2 class="panel-title pixel">◆ YOUR QUEST ◆</h2>
+      <p class="panel-desc">4-5 人一組 ・ 20 分鐘討論 ・ 3 分鐘發表</p>
+      <div class="quote-box">
+        <strong>Q：</strong>選一項你「最有感」的台灣公共議題，
+        如果用今天學的「遊戲化 + AI」設計一個介入方案，會長怎樣？
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3 class="panel-title pixel">填寫小組設計（送出 +15 EXP）</h3>
+
+      <button class="btn secondary small" onclick="fillQuestSample()" style="width:auto; margin-bottom:14px">📋 看示範填好的範例</button>
+
+      <div class="field">
+        <label>① 議題（單選 或 自訂）</label>
+        <div class="chip-group" data-multi="0" id="q-topic">
+          <button class="chip" data-v="回收分類">♻️ 回收分類</button>
+          <button class="chip" data-v="禽流感通報">🐔 禽流感通報</button>
+          <button class="chip" data-v="長照志工招募">👵 長照志工招募</button>
+          <button class="chip" data-v="公投說明">🗳 公投說明</button>
+          <button class="chip" data-v="災防演練">🌀 災防演練</button>
+          <button class="chip" data-v="稅務申報">💰 稅務申報</button>
+        </div>
+        <input id="q-topic-custom" type="text" maxlength="60" placeholder="或自訂議題..." style="margin-top:10px">
+      </div>
+
+      <div class="field">
+        <label>② 問題（你看到什麼問題？）<span class="req">*</span></label>
+        <textarea id="q-problem" maxlength="300" rows="3" placeholder="例如：年輕人不參加里民活動，里長平均年齡 65 歲，世代脫節嚴重..."></textarea>
+      </div>
+
+      <div class="field">
+        <label>③ 目標行為（要讓誰做什麼？要可量測）<span class="req">*</span></label>
+        <textarea id="q-behavior" maxlength="200" rows="2" placeholder="例如：讓 18-35 歲青年每月參加 1 次以上里活動 / 提案 1 個社區改善建議"></textarea>
+      </div>
+
+      <div class="field">
+        <label>④ 機制設計（PBL+ 一個社會元素，先做 MVP）<span class="req">*</span></label>
+        <textarea id="q-mechanic" maxlength="400" rows="3" placeholder="例如：青年里民 App 集點，參與活動拿點數，可換禮品/咖啡券。月排行榜前三名公開表揚。AI 推薦個人最適活動..."></textarea>
+      </div>
+
+      <div class="field">
+        <label>⑤ 對應的 Octalysis 驅動力（選 1-3 個）</label>
+        <div class="oct-grid" id="q-drives">
+          <button class="oct-card" data-v="意義感"><div class="oct-num">1</div><div class="oct-name">意義感</div></button>
+          <button class="oct-card" data-v="成就感"><div class="oct-num">2</div><div class="oct-name">成就感</div></button>
+          <button class="oct-card" data-v="創造力"><div class="oct-num">3</div><div class="oct-name">創造力</div></button>
+          <button class="oct-card" data-v="擁有感"><div class="oct-num">4</div><div class="oct-name">擁有感</div></button>
+          <button class="oct-card" data-v="社交影響"><div class="oct-num">5</div><div class="oct-name">社交影響</div></button>
+          <button class="oct-card" data-v="稀缺性"><div class="oct-num">6</div><div class="oct-name">稀缺性</div></button>
+          <button class="oct-card" data-v="未知感"><div class="oct-num">7</div><div class="oct-name">未知感</div></button>
+          <button class="oct-card" data-v="失去感"><div class="oct-num">8</div><div class="oct-name">失去感</div></button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>⑥ 風險與限制（會踩什麼雷？）<span class="req">*</span></label>
+        <textarea id="q-risk" maxlength="300" rows="3" placeholder="例如：點數通膨、長者數位落差、隱私疑慮（位置追蹤）、政治介入..."></textarea>
+      </div>
+
+      <button class="btn green" onclick="submitQuest()">✍ 送出小組設計</button>
+
+      <div id="quest-card-wrap" style="display:none">
+        <div class="quest-card" id="quest-card">
+          <div class="qc-eyebrow pixel">YOUR QUEST</div>
+          <div class="qc-title pixel" id="qc-topic">—</div>
+          <div class="qc-line"><strong class="pixel">PROBLEM</strong><div id="qc-problem">—</div></div>
+          <div class="qc-line"><strong class="pixel">TARGET BEHAVIOR</strong><div id="qc-behavior">—</div></div>
+          <div class="qc-line"><strong class="pixel">MECHANIC</strong><div id="qc-mechanic">—</div></div>
+          <div class="qc-line"><strong class="pixel">DRIVES</strong><div id="qc-drives-show">—</div></div>
+          <div class="qc-line"><strong class="pixel">RISK</strong><div id="qc-risk">—</div></div>
+          <div class="qc-foot"><span id="qc-team">—</span><span id="qc-date">—</span></div>
+        </div>
+        <p class="text-mute" style="text-align:center; margin-top:8px">建議截圖存桌布 / 上台發表用</p>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3 class="panel-title pixel">PUBLIC BOARD · 已提交的組</h3>
+      <p class="panel-desc">看看其他組關心什麼議題（每 30 秒更新）。</p>
+      <div class="public-board" id="public-board">
+        <h4>LOADING...</h4>
+      </div>
+    </div>
+
+    <div class="panel pink">
+      <h3 class="panel-title pixel">DESIGN RECIPE · 6 步驟</h3>
+      <ol style="margin:0; padding-left:22px; line-height:2; font-size:0.94rem">
+        <li><strong class="text-yellow">定義目標行為</strong>：不是「鼓勵環保」，而是「每月家戶用電降 5%」</li>
+        <li><strong class="text-yellow">找出阻力點</strong>：為什麼大家不做？資訊不足？麻煩？沒誘因？</li>
+        <li><strong class="text-yellow">選擇驅動力</strong>：對應 Octalysis 哪幾個？挑 1-3 個重點，不要全包</li>
+        <li><strong class="text-yellow">設計最小機制</strong>：PBL + 一個社會元素 — 先做最簡 MVP</li>
+        <li><strong class="text-yellow">試點 + 量測</strong>：選一個區/校區跑 8-12 週</li>
+        <li><strong class="text-yellow">迭代或停損</strong>：成效顯著 → 擴大；無效 → 改設計或停</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ TAB 6: 資源 ============ -->
+  <section id="tab-resources" class="tab-section" role="tabpanel">
+    <div class="stage-banner">
+      <span class="stg pixel" style="background:var(--c-purple); color:var(--c-bg)">STAGE ∞</span>
+      <span class="lvl-tag pixel">RESOURCES</span>
+      <span class="right">補給站</span>
+    </div>
+
+    <div class="panel">
+      <h2 class="panel-title pixel">📚 完整外部資源連結</h2>
+      <p class="panel-desc">所有今天課程提到的官網、論文、影片、開源專案。</p>
+
+      <h3 class="text-yellow pixel" style="font-size:0.78rem; margin:14px 0 8px">▶ 理論基礎</h3>
+      <div class="resource-row">
+        <a class="resource-link" href="https://yukaichou.com/gamification-examples/octalysis-complete-gamification-framework/" target="_blank" rel="noopener">Yu-kai Chou Octalysis</a>
+        <a class="resource-link" href="https://selfdeterminationtheory.org/" target="_blank" rel="noopener">SDT 自我決定論</a>
+        <a class="resource-link paper" href="https://dl.acm.org/doi/10.1145/2181037.2181040" target="_blank" rel="noopener">Deterding 2011</a>
+      </div>
+
+      <h3 class="text-yellow pixel" style="font-size:0.78rem; margin:14px 0 8px">▶ 案例（按國家）</h3>
+      <div class="resource-row">
+        <a class="resource-link video" href="https://www.youtube.com/watch?v=iynzHWwJXaA" target="_blank" rel="noopener">SE｜Speed Camera Lottery 影片</a>
+        <a class="resource-link" href="https://en.wikipedia.org/wiki/The_Fun_Theory" target="_blank" rel="noopener">SE｜Fun Theory 維基</a>
+      </div>
+      <div class="resource-row">
+        <a class="resource-link" href="https://www.healthhub.sg/programmes/nsc" target="_blank" rel="noopener">SG｜Healthy 365</a>
+        <a class="resource-link" href="https://hpb.gov.sg/healthy-living/national-steps-challenge" target="_blank" rel="noopener">SG｜HPB NSC</a>
+      </div>
+      <div class="resource-row">
+        <a class="resource-link" href="https://ecomileage.seoul.go.kr/" target="_blank" rel="noopener">KR｜首爾 Eco Mileage</a>
+        <a class="resource-link" href="https://www.cpoint.or.kr/" target="_blank" rel="noopener">KR｜CNPS 碳積點</a>
+        <a class="resource-link" href="https://greenpoint.epa.gov.tw/" target="_blank" rel="noopener">TW｜環境部綠點</a>
+      </div>
+      <div class="resource-row">
+        <a class="resource-link" href="https://www.kratid.ee/en" target="_blank" rel="noopener">EE｜Bürokratt 官網</a>
+        <a class="resource-link gh" href="https://github.com/buerokratt" target="_blank" rel="noopener">EE｜Bürokratt GitHub</a>
+        <a class="resource-link" href="https://e-estonia.com/" target="_blank" rel="noopener">EE｜e-Estonia</a>
+      </div>
+      <div class="resource-row">
+        <a class="resource-link" href="https://fold.it/" target="_blank" rel="noopener">US｜Foldit</a>
+        <a class="resource-link paper" href="https://www.nature.com/articles/nsmb.2119" target="_blank" rel="noopener">US｜M-PMV 論文</a>
+      </div>
+      <div class="resource-row">
+        <a class="resource-link" href="https://www.vtaiwan.tw/" target="_blank" rel="noopener">TW｜vTaiwan</a>
+        <a class="resource-link" href="https://pol.is/home" target="_blank" rel="noopener">TW｜Pol.is</a>
+        <a class="resource-link" href="https://g0v.tw/" target="_blank" rel="noopener">TW｜g0v</a>
+        <a class="resource-link gh" href="https://github.com/compdemocracy/polis" target="_blank" rel="noopener">TW｜Pol.is GitHub</a>
+      </div>
+      <div class="resource-row">
+        <a class="resource-link" href="https://www.bi.team/" target="_blank" rel="noopener">UK｜BIT</a>
+        <a class="resource-link" href="https://www.duolingo.com/" target="_blank" rel="noopener">Bonus｜Duolingo</a>
+      </div>
+
+      <h3 class="text-yellow pixel" style="font-size:0.78rem; margin:14px 0 8px">▶ AI 工具</h3>
+      <div class="resource-row">
+        <a class="resource-link" href="https://chat.openai.com/" target="_blank" rel="noopener">ChatGPT</a>
+        <a class="resource-link" href="https://claude.ai/" target="_blank" rel="noopener">Claude</a>
+        <a class="resource-link" href="https://gemini.google.com/" target="_blank" rel="noopener">Gemini</a>
+        <a class="resource-link" href="https://www.perplexity.ai/" target="_blank" rel="noopener">Perplexity</a>
+      </div>
+
+      <h3 class="text-yellow pixel" style="font-size:0.78rem; margin:14px 0 8px">▶ 學術資料庫</h3>
+      <div class="resource-row">
+        <a class="resource-link" href="https://scholar.google.com/" target="_blank" rel="noopener">Google Scholar</a>
+        <a class="resource-link" href="https://www.scopus.com/" target="_blank" rel="noopener">Scopus</a>
+        <a class="resource-link" href="https://www.oecd.org/governance/" target="_blank" rel="noopener">OECD Governance</a>
+      </div>
+    </div>
+
+    <!-- 班級排行榜 -->
+    <div class="panel green">
+      <h2 class="panel-title pixel">🏆 HALL OF FAME · 班級排行榜</h2>
+      <p class="panel-desc">只顯示前 10 名 ・ 姓名打碼避免羞辱後段。每 60 秒更新。</p>
+      <div id="leaderboard-list">
+        <div class="text-mute" style="text-align:center; padding:18px">LOADING...</div>
+      </div>
+      <button class="btn secondary small" onclick="loadLeaderboard()" style="width:auto; margin-top:10px">🔄 重新整理</button>
+    </div>
+
+    <!-- 結業證書 -->
+    <div class="panel yellow">
+      <h2 class="panel-title pixel">🎖 CERTIFICATE · 結業證書</h2>
+      <p class="panel-desc">累積 30 EXP 解鎖（滿分 41 EXP）。可印出當履歷加分。</p>
+      <div id="cert-status" style="background:var(--c-bg); padding:14px; border:3px dashed var(--c-yellow); text-align:center; margin-bottom:12px">
+        <div class="pixel" id="cert-status-text" style="color:var(--c-yellow); font-size:0.85rem; margin-bottom:6px">CHECKING...</div>
+        <div class="text-mute" id="cert-progress" style="font-size:0.86rem">—</div>
+      </div>
+      <button class="btn yellow" id="btn-cert" onclick="downloadCertificate()" disabled>📥 下載結業證書 (PNG)</button>
+      <p class="text-mute" style="font-size:0.82rem; margin-top:10px; text-align:center">證書會以你的玩家姓名 + 職業 + 議題 + EXP 客製化生成</p>
+    </div>
+
+    <div class="panel yellow">
+      <h2 class="panel-title pixel">講師資訊</h2>
+      <div style="display:flex; align-items:center; gap:14px; padding:10px; background:var(--c-bg); border:3px solid var(--c-line)">
+        <div style="width:64px; height:64px; background:var(--c-pink); display:flex; align-items:center; justify-content:center; font-family:'Press Start 2P',monospace; color:var(--c-text); font-size:1.4rem; border:3px solid var(--c-yellow)">何</div>
+        <div>
+          <div class="pixel" style="font-size:0.86rem; color:var(--c-yellow)">何佳勳 Angle</div>
+          <div class="text-mute" style="font-size:0.86rem">圭話行銷負責人 ・ 行銷遊戲化、AI 工具落地實戰</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2 class="panel-title pixel">FAQ · 常見問題</h2>
+
+      <details class="faq">
+        <summary>遊戲化會不會把嚴肅的政策變得不嚴肅？</summary>
+        <div>遊戲化的目的不是「讓政策變好玩」，而是「讓政策更容易被執行」。瑞典超速彩票本質還是處罰超速；新加坡步數挑戰本質是公衛介入。包裝的是介面，內核還是政策。</div>
+      </details>
+
+      <details class="faq">
+        <summary>排行榜不是會讓落後的人更有壓力嗎？</summary>
+        <div>是。所以新加坡 Healthy 365 改成「個人進步追蹤」+「自選團體 PK」，避免全國排名羞辱。韓國 Eco Mileage 直接用「跟自己過去比」當基準。設計時要看群體特性。</div>
+      </details>
+
+      <details class="faq">
+        <summary>AI 出錯誰負責？</summary>
+        <div>愛沙尼亞 Bürokratt 的解法：(1) Open source → 程式碼可被審視；(2) AI + 人類雙軌 → AI 不確定時自動轉真人；(3) 行政程序不變，AI 只做輔助；(4) 法律明訂行政官員仍是最終決策者。</div>
+      </details>
+
+      <details class="faq">
+        <summary>為什麼遊戲化要搭配 AI？</summary>
+        <div>傳統遊戲化 = 同一套規則套給所有人。AI 加入後可做「個人化難度」、「即時 1 對 1 教練」、「異常自動偵測」、「跨語言無障礙」 — 把規模化和個人化兩個矛盾的需求同時滿足。</div>
+      </details>
+
+      <details class="faq">
+        <summary>台灣可以做哪些政策遊戲化？</summary>
+        <div>已經有：發票對獎（稅務）、台灣綠點（環保）、健康存摺（公衛）、vTaiwan（民主參與）。可以再做的：青年參政、長照志工、災防演練、勞動檢舉。請見「小組任務」分頁有 6 個議題範例可以開始討論。</div>
+      </details>
+
+      <details class="faq">
+        <summary>怎麼判斷哪些政策適合遊戲化？</summary>
+        <div>三個條件同時成立才適合：(1) <strong>目標行為可以量化</strong>（步數/減碳量/到場次數）；(2) <strong>有重複性</strong>（一次性的不行）；(3) <strong>個體層級就有意義</strong>（不需要集體行動才能完成）。例如「健康行為」三條都符合；「外交決策」三條都不符合。</div>
+      </details>
+    </div>
+
+    <div class="panel green">
+      <h2 class="panel-title pixel">📨 課堂提問</h2>
+      <p class="panel-desc">有疑問？匿名提問也可以。老師會在 Q&A 段落回答熱門問題。<span class="text-yellow">提問 +3 EXP</span></p>
+
+      <div class="question-form" id="qform">
+        <textarea id="q-text" maxlength="500" placeholder="例如：如果遊戲化的點數通膨了，怎麼辦？"></textarea>
+        <div class="question-form-row">
+          <label class="anon-check"><input type="checkbox" id="q-anon">匿名送出</label>
+          <button class="btn yellow" id="q-send">送出問題</button>
+        </div>
+      </div>
+      <div class="q-sent" id="q-sent">✓ 已送出！老師會挑熱門題在 Q&A 回答</div>
+    </div>
+
+    <p class="footer">
+      <strong>POLICY ARCADE</strong> ・ 為公共行政暨政策學系課程設計<br>
+      ◆ 資1F09 ／ 2026.05.07 ／ 何佳勳 ◆<br>
+      <a href="https://github.com/atm301" style="color:var(--c-mute)" target="_blank" rel="noopener">© 2026 圭話行銷</a>
+    </p>
+  </section>
+
+</main>
+
+<nav class="tabs" role="tablist">
+  <button class="tab-btn" role="tab" id="tab-start-btn" aria-selected="true" data-tab="start">
+    <span class="icon">🎮</span><span class="label">START</span><span class="check">✓</span>
+  </button>
+  <button class="tab-btn" role="tab" id="tab-concept-btn" aria-selected="false" data-tab="concept">
+    <span class="icon">📖</span><span class="label">概念</span><span class="check">✓</span>
+  </button>
+  <button class="tab-btn" role="tab" id="tab-cases-btn" aria-selected="false" data-tab="cases">
+    <span class="icon">🌍</span><span class="label">案例</span><span class="check">✓</span>
+  </button>
+  <button class="tab-btn" role="tab" id="tab-boss-btn" aria-selected="false" data-tab="boss">
+    <span class="icon">🤖</span><span class="label">BOSS</span><span class="check">✓</span>
+  </button>
+  <button class="tab-btn" role="tab" id="tab-quest-btn" aria-selected="false" data-tab="quest">
+    <span class="icon">⚔️</span><span class="label">任務</span><span class="check">✓</span>
+  </button>
+  <button class="tab-btn" role="tab" id="tab-resources-btn" aria-selected="false" data-tab="resources">
+    <span class="icon">📚</span><span class="label">資源</span><span class="check">✓</span>
+  </button>
+</nav>
+
+<div class="bottom-stripe" style="margin-bottom:var(--tab-h)"></div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<div class="modal-bg" id="modal-clear">
+  <div class="modal">
+    <h2>STAGE CLEAR!</h2>
+    <p class="text-mute">恭喜過關！</p>
+    <div class="exp-row">
+      <div class="exp-cell">EXP +<span id="m-exp">0</span></div>
+      <div class="exp-cell">$ +<span id="m-coin">0</span></div>
+    </div>
+    <button class="btn yellow" onclick="closeModal()">CONTINUE</button>
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL = 'https://dpglkagtzdwiovzbtase.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_Tuj9p4DXvO-jEqVcBnumTg_TqZ1NnRu';
+const STORAGE_KEY = 'pa_v1';
+
+const state = {
+  attendee: null,
+  clientToken: null,
+  isEditing: false,
+  octalysis: { topic: '', drives: [], refs: [] },
+  quest: null,
+  expLog: {}, // { key: timestamp }
+};
+
+function genToken() {
+  if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+  return 'tok_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
+}
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) Object.assign(state, JSON.parse(raw));
+    if (!state.octalysis) state.octalysis = { topic: '', drives: [], refs: [] };
+    if (!state.expLog) state.expLog = {};
+  } catch (e) {}
+}
+function saveState() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  } catch (e) {}
+}
+
+/* ====== Toast / EXP ====== */
+function toast(msg, type) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'toast show' + (type ? ' ' + type : '');
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => { el.className = 'toast'; }, 2400);
+}
+function track(name, params) {
+  if (window.gtag) gtag('event', name, params || {});
+}
+
+const EXP_RULES = {
+  register: 5,
+  case_se: 1, case_sg: 1, case_kr: 1, case_ee: 1, case_us: 1, case_tw: 1, case_uk: 1, case_duo: 1,
+  octalysis: 10,
+  quest: 15,
+  question: 3,
+};
+
+function awardExp(key, opts) {
+  if (state.expLog[key]) return; // 不重複給
+  const exp = EXP_RULES[key];
+  if (!exp) return;
+  state.expLog[key] = Date.now();
+  saveState();
+  syncExpLog();
+  updateHud();
+  updateCertStatus();
+  if (opts && opts.silent) return;
+  toast(`+${exp} EXP`, 'success');
+}
+
+function totalExp() {
+  return Object.keys(state.expLog).reduce((s, k) => s + (EXP_RULES[k] || 0), 0);
+}
+function totalCoin() {
+  return Object.keys(state.expLog).length * 2; // 每個事件 +2 coin
+}
+function level() {
+  const exp = totalExp();
+  if (exp >= 38) return 5;
+  if (exp >= 28) return 4;
+  if (exp >= 18) return 3;
+  if (exp >= 8) return 2;
+  return 1;
+}
+function updateHud() {
+  document.getElementById('hud-exp').textContent = totalExp();
+  document.getElementById('hud-coin').textContent = totalCoin();
+  document.getElementById('hud-lvl').textContent = level();
+}
+
+async function syncExpLog() {
+  if (!state.clientToken) return;
+  try {
+    await fetch(`${SUPABASE_URL}/rest/v1/rpc/pa_update_attendee`, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json','apikey':SUPABASE_ANON_KEY,'Authorization':`Bearer ${SUPABASE_ANON_KEY}`},
+      body: JSON.stringify({ p_token: state.clientToken, p_field: 'exp_log', p_data: state.expLog })
+    });
+  } catch (e) {}
+}
+
+/* ====== Tabs ====== */
+function switchTab(name) {
+  document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.setAttribute('aria-selected', 'false'));
+  document.getElementById('tab-' + name).classList.add('active');
+  document.getElementById('tab-' + name + '-btn').setAttribute('aria-selected', 'true');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  track('tab_switch', { tab: name });
+  if (name === 'start') refreshLiveCount();
+  if (name === 'quest') loadPublicQuests();
+}
+document.querySelectorAll('.tab-btn').forEach(btn => btn.addEventListener('click', () => switchTab(btn.dataset.tab)));
+
+function updateTabChecks() {
+  document.getElementById('tab-start-btn').classList.toggle('done', !!state.attendee);
+  document.getElementById('tab-cases-btn').classList.toggle('done', Object.keys(state.expLog).filter(k => k.startsWith('case_')).length >= 4);
+  document.getElementById('tab-boss-btn').classList.toggle('done', !!state.expLog.octalysis);
+  document.getElementById('tab-quest-btn').classList.toggle('done', !!state.expLog.quest);
+}
+
+/* ====== Chip groups ====== */
+function setupChipGroup(container) {
+  const multi = container.dataset.multi === '1';
+  container.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      if (multi) chip.classList.toggle('selected');
+      else {
+        container.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+        chip.classList.add('selected');
+      }
+    });
+  });
+}
+document.querySelectorAll('.chip-group').forEach(setupChipGroup);
+
+function getChips(id, multi) {
+  const c = document.getElementById(id);
+  if (!c) return multi ? [] : '';
+  const sel = Array.from(c.querySelectorAll('.chip.selected')).map(c => c.dataset.v);
+  return multi ? sel : (sel[0] || '');
+}
+
+/* ====== Octalysis grid (multi-select up to 3) ====== */
+function setupOctGrid(container, max) {
+  container.querySelectorAll('.oct-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const isSel = card.classList.contains('selected');
+      if (!isSel) {
+        const cur = container.querySelectorAll('.oct-card.selected').length;
+        if (cur >= max) {
+          const first = container.querySelector('.oct-card.selected');
+          if (first) first.classList.remove('selected');
+        }
+        card.classList.add('selected');
+      } else card.classList.remove('selected');
+    });
+  });
+}
+setupOctGrid(document.getElementById('oct-drives'), 3);
+setupOctGrid(document.getElementById('q-drives'), 3);
+
+function getOctDrives(id) {
+  return Array.from(document.getElementById(id).querySelectorAll('.oct-card.selected')).map(c => c.dataset.v);
+}
+
+/* ====== Role select ====== */
+document.querySelectorAll('#role-grid .role-card').forEach(c => {
+  c.addEventListener('click', () => {
+    document.querySelectorAll('#role-grid .role-card').forEach(x => x.classList.remove('selected'));
+    c.classList.add('selected');
+  });
+});
+
+/* ====== Live count ====== */
+async function refreshLiveCount() {
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/rpc/pa_attendee_count`, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json','apikey':SUPABASE_ANON_KEY,'Authorization':`Bearer ${SUPABASE_ANON_KEY}`},
+      body: '{}'
+    });
+    if (!res.ok) return;
+    const n = await res.json();
+    const el = document.getElementById('live-count');
+    if (n > 0 && el) {
+      el.style.display = 'inline-flex';
+      document.getElementById('live-count-text').textContent = `已 ${n} 位玩家入場`;
+    }
+  } catch (e) {}
+}
+
+/* ====== Register ====== */
+async function submitRegister() {
+  const name = document.getElementById('f-name').value.trim();
+  const sid = document.getElementById('f-sid').value.trim();
+  const team = document.getElementById('f-team').value.trim();
+  const role = (document.querySelector('#role-grid .role-card.selected') || {}).dataset?.role || '';
+  const contact = document.getElementById('f-contact').value.trim();
+
+  if (!name) { toast('請填姓名', 'danger'); document.getElementById('f-name').focus(); return; }
+
+  const btn = document.getElementById('btn-register');
+  btn.disabled = true;
+
+  const isEdit = state.isEditing && !!state.clientToken;
+  try {
+    if (isEdit) {
+      await fetch(`${SUPABASE_URL}/rest/v1/rpc/pa_update_attendee`, {
+        method: 'POST',
+        headers: {'Content-Type':'application/json','apikey':SUPABASE_ANON_KEY,'Authorization':`Bearer ${SUPABASE_ANON_KEY}`},
+        body: JSON.stringify({ p_token: state.clientToken, p_field: 'basic', p_data: { name, student_id: sid, team, class_role: role, contact }})
+      });
+    } else {
+      if (!state.clientToken) state.clientToken = genToken();
+      await fetch(`${SUPABASE_URL}/rest/v1/pa_attendees`, {
+        method: 'POST',
+        headers: {'Content-Type':'application/json','apikey':SUPABASE_ANON_KEY,'Authorization':`Bearer ${SUPABASE_ANON_KEY}`,'Prefer':'return=minimal'},
+        body: JSON.stringify({
+          name, student_id: sid, team, class_role: role, contact,
+          client_token: state.clientToken,
+          user_agent: navigator.userAgent.slice(0, 200)
+        })
+      });
+      track('register_complete', {});
+    }
+  } catch (e) { console.warn(e); }
+
+  state.attendee = { name, sid, team, role, contact };
+  state.isEditing = false;
+  saveState();
+  awardExp('register');
+
+  document.getElementById('register-form').style.display = 'none';
+  document.getElementById('register-done').style.display = 'block';
+  document.getElementById('welcome-name').textContent = name;
+  document.getElementById('welcome-role').textContent = role || '玩家';
+  if (isEdit) document.getElementById('welcome-title').textContent = 'PLAYER UPDATED';
+  updateTabChecks();
+  btn.disabled = false;
+  toast(isEdit ? '✓ 資料已更新' : '✓ 報到完成 +5 EXP', 'success');
+}
+document.getElementById('btn-register').addEventListener('click', submitRegister);
+
+function startEdit() {
+  if (!state.attendee) return;
+  state.isEditing = true;
+  document.getElementById('f-name').value = state.attendee.name || '';
+  document.getElementById('f-sid').value = state.attendee.sid || '';
+  document.getElementById('f-team').value = state.attendee.team || '';
+  document.getElementById('f-contact').value = state.attendee.contact || '';
+  document.querySelectorAll('#role-grid .role-card').forEach(c => c.classList.toggle('selected', c.dataset.role === state.attendee.role));
+  document.getElementById('register-form').style.display = 'block';
+  document.getElementById('register-done').style.display = 'none';
+  document.getElementById('btn-register').textContent = '✓ 儲存修改';
+  document.getElementById('f-name').focus();
+}
+window.startEdit = startEdit;
+
+/* ====== Cases (toggle expand) ====== */
+function toggleCase(key) {
+  const el = document.querySelector(`.case[data-case="${key}"]`);
+  if (!el) return;
+  const wasOpen = el.classList.contains('open');
+  el.classList.toggle('open');
+  el.querySelector('.case-toggle').textContent = wasOpen ? '+' : '−';
+  if (!wasOpen) awardExp('case_' + key);
+}
+window.toggleCase = toggleCase;
+
+/* ====== Octalysis prompt ====== */
+const COUNTRY_REF = {
+  '瑞典超速彩票': '把違規者罰款做成獎勵守規者的抽獎池，速度↓22%（未知感+社會）',
+  '新加坡 Healthy 365': '免費發手環+步數換實品+企業/保險接軌，70萬人參與10年迭代（成就+社會）',
+  '韓國 Eco Mileage': '家戶節能比過去自己→換點數→換折扣，186萬人參與（擁有+失去）',
+  '愛沙尼亞 Bürokratt': 'AI 客服總機 + 多代理 Open Source，99% 政務上線（創造+意義）',
+  '美國 Foldit': '把蛋白質摺疊變 3D 拼圖，玩家 10 天解 15 年難題（意義+成就）',
+  '台灣 vTaiwan': 'Pol.is 演算法獎勵跨群共識，26 件議題 80% 政府採行（創造+社會）',
+  '英國 BIT': 'RCT 驗證每個政策設計（換句話、加同儕比較），50+ 國複製（社會+損失）',
+};
+
+function genOctPrompt() {
+  const topic = document.getElementById('oct-topic').value.trim();
+  const drives = getOctDrives('oct-drives');
+  const refs = getChips('oct-refs', true);
+  if (!topic) { toast('請填政策議題', 'danger'); return; }
+  if (drives.length === 0) { toast('請至少選 1 個驅動力', 'danger'); return; }
+
+  const prompt = `你是公共政策遊戲化設計顧問。請根據以下資訊，給出一份具體的設計提案：
+
+【政策議題】
+${topic}
+
+【選定的 Octalysis 驅動力】
+${drives.map((d, i) => `${i+1}. ${d}`).join('\n')}
+
+${refs.length ? `【參考國際案例】\n${refs.map(r => `- ${r}：${COUNTRY_REF[r] || ''}`).join('\n')}` : ''}
+
+請輸出以下 6 段：
+
+【1. 目標行為】
+具體可量測的目標（例：每月家戶用電降 5%、每週志工服務 ≥2 小時）
+
+【2. 阻力分析】
+為什麼民眾不做？資訊不足？麻煩？沒誘因？沒被看見？
+
+【3. 機制設計】
+PBL（點數/徽章/排行榜） + 一個社會元素，先做 MVP。
+具體要寫出：
+- 怎麼計分
+- 怎麼回饋
+- 點數能換什麼（要實質）
+- 怎麼用上面選的驅動力
+
+【4. AI 怎麼加分】
+AI 在哪些環節加值？（個人化難度/即時內容生成/異常偵測/跨語言/A-B 測試）
+
+【5. 試點規劃】
+- 選哪個區/校區做試點？
+- 跑多久（建議 8-12 週）
+- 要量測哪些 KPI
+
+【6. 風險與道德邊界】
+- 排行榜傷人怎麼辦？
+- 隱私與監控的邊界
+- 公平性（沒手機/不會用 App 的人）
+- 遊戲疲勞怎麼處理
+
+【寫作要求】
+- 每段 80-150 字
+- 具體可行，避免空話
+- 要對應到上面選定的驅動力，不要全包`;
+
+  document.getElementById('oct-output').value = prompt;
+  document.getElementById('oct-output').style.minHeight = Math.min(prompt.split('\n').length * 22 + 30, 500) + 'px';
+
+  state.octalysis = { topic, drives, refs };
+  saveState();
+
+  // 同步到 Supabase
+  if (state.clientToken) {
+    fetch(`${SUPABASE_URL}/rest/v1/rpc/pa_update_attendee`, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json','apikey':SUPABASE_ANON_KEY,'Authorization':`Bearer ${SUPABASE_ANON_KEY}`},
+      body: JSON.stringify({ p_token: state.clientToken, p_field: 'octalysis_design', p_data: state.octalysis })
+    }).catch(()=>{});
+  }
+  awardExp('octalysis');
+  updateTabChecks();
+  toast('✓ Prompt 已產生 +10 EXP', 'success');
+}
+window.genOctPrompt = genOctPrompt;
+
+async function copyText(id) {
+  const el = document.getElementById(id);
+  if (!el || !el.value) { toast('請先按產生按鈕', 'danger'); return; }
+  try {
+    await navigator.clipboard.writeText(el.value);
+    toast('✓ 已複製到剪貼簿', 'success');
+  } catch (e) {
+    el.select(); document.execCommand('copy');
+    toast('✓ 已複製', 'success');
+  }
+}
+window.copyText = copyText;
+
+/* ====== Quest submission ====== */
+async function submitQuest() {
+  let topic = getChips('q-topic', false);
+  const custom = document.getElementById('q-topic-custom').value.trim();
+  if (custom) topic = custom;
+
+  const problem = document.getElementById('q-problem').value.trim();
+  const behavior = document.getElementById('q-behavior').value.trim();
+  const mechanic = document.getElementById('q-mechanic').value.trim();
+  const drives = getOctDrives('q-drives');
+  const risk = document.getElementById('q-risk').value.trim();
+
+  if (!topic) { toast('請選或填議題', 'danger'); return; }
+  if (!problem) { toast('請填問題', 'danger'); document.getElementById('q-problem').focus(); return; }
+  if (!behavior) { toast('請填目標行為', 'danger'); document.getElementById('q-behavior').focus(); return; }
+  if (!mechanic) { toast('請填機制設計', 'danger'); document.getElementById('q-mechanic').focus(); return; }
+  if (!risk) { toast('請填風險', 'danger'); document.getElementById('q-risk').focus(); return; }
+
+  const payload = {
+    topic, problem, behavior, mechanic, drives, risk,
+    submitted_at: new Date().toISOString()
+  };
+  state.quest = payload;
+  saveState();
+
+  if (state.clientToken) {
+    try {
+      await fetch(`${SUPABASE_URL}/rest/v1/rpc/pa_update_attendee`, {
+        method: 'POST',
+        headers: {'Content-Type':'application/json','apikey':SUPABASE_ANON_KEY,'Authorization':`Bearer ${SUPABASE_ANON_KEY}`},
+        body: JSON.stringify({ p_token: state.clientToken, p_field: 'group_quest', p_data: payload })
+      });
+    } catch (e) {}
+  }
+
+  // 渲染卡片
+  document.getElementById('qc-topic').textContent = topic;
+  document.getElementById('qc-problem').textContent = problem;
+  document.getElementById('qc-behavior').textContent = behavior;
+  document.getElementById('qc-mechanic').textContent = mechanic;
+  document.getElementById('qc-drives-show').textContent = drives.length ? drives.join('、') : '—';
+  document.getElementById('qc-risk').textContent = risk;
+  document.getElementById('qc-team').textContent = state.attendee ? `${state.attendee.team || ''} · ${state.attendee.name}` : '—';
+  const d = new Date();
+  document.getElementById('qc-date').textContent = `${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()}`;
+  document.getElementById('quest-card-wrap').style.display = 'block';
+  setTimeout(() => document.getElementById('quest-card-wrap').scrollIntoView({behavior:'smooth', block:'center'}), 50);
+
+  awardExp('quest');
+  updateTabChecks();
+  toast('✓ 小組設計已送出 +15 EXP', 'success');
+  loadPublicQuests();
+}
+window.submitQuest = submitQuest;
+
+/* ====== Public board ====== */
+async function loadPublicQuests() {
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/rpc/pa_public_quests`, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json','apikey':SUPABASE_ANON_KEY,'Authorization':`Bearer ${SUPABASE_ANON_KEY}`},
+      body: '{}'
+    });
+    if (!res.ok) return;
+    const arr = await res.json();
+    const board = document.getElementById('public-board');
+    if (!arr || arr.length === 0) {
+      board.innerHTML = '<h4>還沒有人提交</h4><p class="text-mute" style="font-size:0.86rem">第一個提交的組會被看見！</p>';
+      return;
+    }
+    board.innerHTML = `<h4>已提交 ${arr.length} 組</h4>` +
+      arr.slice(0, 20).map(q => `
+        <div class="public-quest-item">
+          <span class="team">${q.team || '—'}</span>
+          <span class="topic">${escapeHtml(q.topic || '—')}</span>
+          <span class="name">${escapeHtml(q.name || '')}</span>
+        </div>`).join('');
+  } catch (e) {}
+}
+
+function escapeHtml(s) {
+  if (!s) return '';
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+/* ====== Question form ====== */
+async function sendQuestion() {
+  const text = document.getElementById('q-text').value.trim();
+  if (!text) { toast('請先輸入問題', 'danger'); return; }
+  const anon = document.getElementById('q-anon').checked;
+  const btn = document.getElementById('q-send');
+  btn.disabled = true;
+
+  try {
+    await fetch(`${SUPABASE_URL}/rest/v1/pa_questions`, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json','apikey':SUPABASE_ANON_KEY,'Authorization':`Bearer ${SUPABASE_ANON_KEY}`,'Prefer':'return=minimal'},
+      body: JSON.stringify({
+        attendee_name: anon ? null : (state.attendee && state.attendee.name) || null,
+        team: anon ? null : (state.attendee && state.attendee.team) || null,
+        question: text,
+        is_anonymous: anon
+      })
+    });
+    document.getElementById('q-text').value = '';
+    document.getElementById('qform').style.display = 'none';
+    document.getElementById('q-sent').classList.add('show');
+    setTimeout(() => {
+      document.getElementById('qform').style.display = 'flex';
+      document.getElementById('q-sent').classList.remove('show');
+    }, 4000);
+    awardExp('question');
+  } catch (e) {
+    toast('送出失敗', 'danger');
+  }
+  btn.disabled = false;
+}
+document.getElementById('q-send').addEventListener('click', sendQuestion);
+
+/* ====== Modal ====== */
+function closeModal() { document.getElementById('modal-clear').classList.remove('show'); }
+window.closeModal = closeModal;
+
+/* ====== Sample fillers ====== */
+const SAMPLE_OCT = {
+  topic: '青年參與地方公共事務',
+  drives: ['意義感', '社交影響', '創造力'],
+  refs: ['台灣 vTaiwan', '愛沙尼亞 Bürokratt']
+};
+const SAMPLE_QUEST = {
+  topic: '長照志工招募',
+  problem: '長照志工高齡化嚴重，平均年齡 68 歲，5 年內將出現斷層。年輕人不參加的原因：(1) 服務時數無法計入學分/績效 (2) 派工系統老舊難用 (3) 沒有同儕陪伴感 (4) 接觸到的訊息只有「需要奉獻」沒有「有什麼回饋」',
+  behavior: '讓 18-35 歲青年每月貢獻 ≥2 小時志工服務，3 個月後主動回流率 ≥40%，1 年內招募 500 位青年新血',
+  mechanic: '青年志工 App「ZeroAge」：(1) 集點：每小時服務 +10 點，初次體驗禮 +50 點 (2) 徽章：連續 3 月達標解鎖「在地青年大使」可掛 LinkedIn (3) 排行榜：同社區青年 PK，不全國比，前 10 才公開 (4) AI 媒合：依時間/興趣/距離推薦最適家庭 (5) 點數可換書店折扣/咖啡券/特休抵用 (6) 跨界合作：與大學服務學習、企業 ESG 接軌',
+  drives: ['意義感', '社交影響', '成就感'],
+  risk: '(1) 排行榜對少做的人造成羞辱 → 對策：只顯前 10 名 + 個人進步追蹤 (2) 隱私顧慮（位置追蹤）→ 對策：粗略區域而非精準座標 (3) 點數通膨/濫發 → 對策：每季預算上限 + 服務時數需被照顧者簽核 (4) 弱勢家庭被冷落（沒有「分」可拿）→ 對策：派工系統強制平衡分配，AI 主動推薦低排名家庭 (5) 服務品質下降（為點數而做）→ 對策：被服務者匿名評分回饋'
+};
+
+function fillOctSample() {
+  document.getElementById('oct-topic').value = SAMPLE_OCT.topic;
+  document.querySelectorAll('#oct-drives .oct-card').forEach(c => c.classList.toggle('selected', SAMPLE_OCT.drives.includes(c.dataset.v)));
+  document.querySelectorAll('#oct-refs .chip').forEach(c => c.classList.toggle('selected', SAMPLE_OCT.refs.includes(c.dataset.v)));
+  toast('✓ 範例已帶入，按下方產生 Prompt', 'success');
+  document.getElementById('oct-topic').scrollIntoView({behavior:'smooth', block:'center'});
+}
+window.fillOctSample = fillOctSample;
+
+function fillQuestSample() {
+  // topic chip
+  document.querySelectorAll('#q-topic .chip').forEach(c => c.classList.toggle('selected', c.dataset.v === SAMPLE_QUEST.topic));
+  document.getElementById('q-topic-custom').value = '';
+  document.getElementById('q-problem').value = SAMPLE_QUEST.problem;
+  document.getElementById('q-behavior').value = SAMPLE_QUEST.behavior;
+  document.getElementById('q-mechanic').value = SAMPLE_QUEST.mechanic;
+  document.querySelectorAll('#q-drives .oct-card').forEach(c => c.classList.toggle('selected', SAMPLE_QUEST.drives.includes(c.dataset.v)));
+  document.getElementById('q-risk').value = SAMPLE_QUEST.risk;
+  toast('✓ 範例已帶入，記得改成你們組的版本', 'success');
+  document.getElementById('q-problem').scrollIntoView({behavior:'smooth', block:'center'});
+}
+window.fillQuestSample = fillQuestSample;
+
+/* ====== Leaderboard ====== */
+async function loadLeaderboard() {
+  const box = document.getElementById('leaderboard-list');
+  if (!box) return;
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/rpc/pa_public_leaderboard`, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json','apikey':SUPABASE_ANON_KEY,'Authorization':`Bearer ${SUPABASE_ANON_KEY}`},
+      body: '{}'
+    });
+    if (!res.ok) { box.innerHTML = '<div class="text-mute" style="text-align:center; padding:18px">排行榜尚未開放</div>'; return; }
+    const arr = await res.json();
+    if (!arr || !arr.length) {
+      box.innerHTML = '<div class="text-mute" style="text-align:center; padding:18px">還沒有人累積 EXP — 第一個就是你！</div>';
+      return;
+    }
+    // 用同一套 EXP_RULES 算分
+    const scored = arr.map(p => {
+      const exp = Object.keys(p.exp_log || {}).reduce((s, k) => s + (EXP_RULES[k] || 0), 0);
+      return { ...p, exp };
+    }).filter(p => p.exp > 0).sort((a, b) => b.exp - a.exp).slice(0, 10);
+
+    if (!scored.length) {
+      box.innerHTML = '<div class="text-mute" style="text-align:center; padding:18px">還沒有人累積 EXP</div>';
+      return;
+    }
+
+    const medals = ['🥇','🥈','🥉'];
+    box.innerHTML = `<div style="display:grid; gap:6px">` + scored.map((p, i) => `
+      <div style="display:flex; align-items:center; gap:10px; padding:10px 12px; background:var(--c-bg); border:2px solid ${i < 3 ? 'var(--c-yellow)' : 'var(--c-line)'}">
+        <div class="pixel" style="width:36px; text-align:center; color:${i < 3 ? 'var(--c-yellow)' : 'var(--c-mute)'}; font-size:0.86rem">${medals[i] || '#' + (i+1)}</div>
+        <div style="flex:1; min-width:0">
+          <div style="font-weight:900; color:var(--c-text)">${escapeHtml(p.nick)}</div>
+          <div class="text-mute" style="font-size:0.78rem">${escapeHtml(p.role || '—')} ${p.team ? '・ ' + escapeHtml(p.team) : ''}</div>
+        </div>
+        <div class="pixel" style="background:var(--c-pink); color:var(--c-text); padding:6px 10px; font-size:0.78rem">${p.exp} EXP</div>
+      </div>
+    `).join('') + '</div>';
+  } catch (e) {
+    box.innerHTML = '<div class="text-mute" style="text-align:center; padding:18px">排行榜載入失敗</div>';
+  }
+}
+window.loadLeaderboard = loadLeaderboard;
+
+/* ====== Certificate ====== */
+const CERT_THRESHOLD = 30;
+const CERT_MAX = 41; // 5 + 8 + 10 + 15 + 3
+function updateCertStatus() {
+  const exp = totalExp();
+  const txt = document.getElementById('cert-status-text');
+  const prog = document.getElementById('cert-progress');
+  const btn = document.getElementById('btn-cert');
+  if (!txt) return;
+  if (!state.attendee) {
+    txt.textContent = '🔒 LOCKED';
+    prog.textContent = '請先完成報到';
+    btn.disabled = true;
+    return;
+  }
+  if (exp >= CERT_THRESHOLD) {
+    txt.textContent = '✓ UNLOCKED';
+    txt.style.color = 'var(--c-green)';
+    prog.innerHTML = `LV<strong>${level()}</strong> · ${exp}/${CERT_MAX} EXP · 可下載證書囉！`;
+    btn.disabled = false;
+  } else {
+    txt.textContent = `🔒 還差 ${CERT_THRESHOLD - exp} EXP`;
+    prog.innerHTML = `目前 ${exp}/${CERT_THRESHOLD} EXP（解鎖門檻）｜建議：報到 + 完成 Octalysis 設計器 + 送出小組任務`;
+    btn.disabled = true;
+  }
+}
+
+async function downloadCertificate() {
+  if (!state.attendee) { toast('請先完成報到', 'danger'); return; }
+  if (totalExp() < CERT_THRESHOLD) { toast(`還差 ${CERT_THRESHOLD - totalExp()} EXP`, 'danger'); return; }
+
+  // 先確保字型載入
+  if (document.fonts && document.fonts.ready) {
+    try { await document.fonts.ready; } catch (e) {}
+  }
+
+  const W = 1600, H = 1100;
+  const canvas = document.createElement('canvas');
+  canvas.width = W; canvas.height = H;
+  const ctx = canvas.getContext('2d');
+
+  // 顏色（與站內一致）
+  const C = {
+    bg: '#1a1830', bg2: '#2d2a4a', bg3: '#3a3760',
+    pink: '#ed4978', green: '#4ce46f', blue: '#5cc6f5',
+    yellow: '#f9c66f', text: '#f5f3ff', mute: '#8b88a8', line: '#4a456e'
+  };
+
+  // 背景
+  ctx.fillStyle = C.bg;
+  ctx.fillRect(0, 0, W, H);
+
+  // 上下斑馬條紋
+  const stripeW = 32;
+  for (let x = 0; x < W; x += stripeW * 2) {
+    ctx.fillStyle = C.pink; ctx.fillRect(x, 0, stripeW, 24);
+    ctx.fillStyle = C.yellow; ctx.fillRect(x + stripeW, 0, stripeW, 24);
+    ctx.fillStyle = C.pink; ctx.fillRect(x, H - 24, stripeW, 24);
+    ctx.fillStyle = C.yellow; ctx.fillRect(x + stripeW, H - 24, stripeW, 24);
+  }
+  // 兩條中央色線
+  ctx.fillStyle = C.pink; ctx.fillRect(0, 90, W, 12);
+  ctx.fillStyle = C.green; ctx.fillRect(0, H - 110, W, 12);
+
+  // 內框
+  ctx.strokeStyle = C.yellow;
+  ctx.lineWidth = 6;
+  ctx.strokeRect(60, 130, W - 120, H - 270);
+
+  // Eyebrow
+  ctx.fillStyle = C.yellow;
+  ctx.font = 'bold 32px "Press Start 2P", "Courier New", monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText('◆  CERTIFICATE OF COMPLETION  ◆', W / 2, 200);
+
+  // Main title
+  ctx.fillStyle = C.text;
+  ctx.font = 'bold 96px "Press Start 2P", "Courier New", monospace';
+  ctx.fillText('POLICY ARCADE', W / 2, 310);
+
+  // Pink accent line
+  ctx.fillStyle = C.pink;
+  ctx.fillRect(W / 2 - 200, 340, 400, 8);
+
+  // 認證描述
+  ctx.fillStyle = C.mute;
+  ctx.font = '32px "Noto Sans TC", system-ui, sans-serif';
+  ctx.fillText('This is to certify that', W / 2, 410);
+
+  // Player name
+  ctx.fillStyle = C.yellow;
+  ctx.font = 'bold 72px "Noto Sans TC", system-ui, sans-serif';
+  ctx.fillText(state.attendee.name, W / 2, 490);
+
+  // Role + 描述
+  ctx.fillStyle = C.text;
+  ctx.font = '28px "Noto Sans TC", system-ui, sans-serif';
+  const role = state.attendee.role || '玩家';
+  ctx.fillText(`以「${role}」職業 完成`, W / 2, 540);
+  ctx.fillStyle = C.green;
+  ctx.font = 'bold 32px "Noto Sans TC", system-ui, sans-serif';
+  ctx.fillText('「遊戲化 × AI × 公共政策」課程', W / 2, 590);
+
+  // Stat boxes (3 個)
+  const stats = [
+    { label: 'EXP', value: totalExp() + '/' + CERT_MAX, color: C.pink },
+    { label: 'LEVEL', value: 'LV ' + level(), color: C.green },
+    { label: 'COINS', value: '$ ' + totalCoin(), color: C.yellow },
+  ];
+  const boxW = 280, boxH = 120, gap = 40;
+  const totalW = boxW * 3 + gap * 2;
+  let bx = (W - totalW) / 2;
+  stats.forEach(s => {
+    ctx.fillStyle = C.bg2;
+    ctx.fillRect(bx, 640, boxW, boxH);
+    ctx.strokeStyle = s.color;
+    ctx.lineWidth = 4;
+    ctx.strokeRect(bx, 640, boxW, boxH);
+    ctx.fillStyle = s.color;
+    ctx.font = 'bold 22px "Press Start 2P", monospace';
+    ctx.fillText(s.label, bx + boxW / 2, 678);
+    ctx.fillStyle = C.text;
+    ctx.font = 'bold 44px "Press Start 2P", monospace';
+    ctx.fillText(s.value, bx + boxW / 2, 730);
+    bx += boxW + gap;
+  });
+
+  // 議題 + 小組任務 摘要
+  let yMid = 820;
+  ctx.font = '26px "Noto Sans TC", system-ui, sans-serif';
+  ctx.fillStyle = C.blue;
+  ctx.textAlign = 'center';
+  if (state.octalysis && state.octalysis.topic) {
+    ctx.fillText(`★ Octalysis 議題：${state.octalysis.topic}`, W / 2, yMid);
+    yMid += 38;
+  }
+  if (state.quest && state.quest.topic) {
+    ctx.fillStyle = C.coral || C.yellow;
+    ctx.fillText(`★ 小組任務：${state.quest.topic}${state.attendee.team ? '（' + state.attendee.team + '）' : ''}`, W / 2, yMid);
+    yMid += 38;
+  }
+
+  // 講師簽名 + 日期
+  const d = new Date();
+  ctx.fillStyle = C.text;
+  ctx.font = '24px "Noto Sans TC", system-ui, sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText(`講師：何佳勳 Angle`, 200, H - 170);
+  ctx.textAlign = 'right';
+  ctx.fillText(`${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}`, W - 200, H - 170);
+
+  // 底部 footer
+  ctx.fillStyle = C.mute;
+  ctx.font = '20px "Noto Sans TC", system-ui, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('公共行政暨政策學系 ・ POLICY ARCADE', W / 2, H - 60);
+
+  // Pixel creature 像素裝飾
+  function px(x0, y0, color, scale) {
+    const pat = [
+      "  X    X  ", "   X  X   ", "  XXXXXX  ", " XX XX XX ",
+      "XXXXXXXXXX","X XXXXXX X","X X    X X","   XX XX  "
+    ];
+    ctx.fillStyle = color;
+    pat.forEach((row, ry) => {
+      [...row].forEach((ch, rx) => {
+        if (ch === 'X') ctx.fillRect(x0 + rx * scale, y0 + ry * scale, scale, scale);
+      });
+    });
+  }
+  px(110, H - 240, C.green, 8);
+  px(W - 200, H - 240, C.coral || C.pink, 8);
+
+  // 下載
+  canvas.toBlob(blob => {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `policy-arcade-cert-${state.attendee.name}.png`;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+    toast('✓ 證書已下載', 'success');
+    track('cert_download', { exp: totalExp() });
+  }, 'image/png');
+}
+window.downloadCertificate = downloadCertificate;
+
+/* ====== Init ====== */
+function init() {
+  loadState();
+  if (state.attendee) {
+    document.getElementById('register-form').style.display = 'none';
+    document.getElementById('register-done').style.display = 'block';
+    document.getElementById('welcome-name').textContent = state.attendee.name;
+    document.getElementById('welcome-role').textContent = state.attendee.role || '玩家';
+  }
+  // 還原 octalysis
+  if (state.octalysis && state.octalysis.topic) {
+    document.getElementById('oct-topic').value = state.octalysis.topic;
+    (state.octalysis.drives || []).forEach(d => {
+      const c = document.querySelector(`#oct-drives .oct-card[data-v="${d}"]`);
+      if (c) c.classList.add('selected');
+    });
+    (state.octalysis.refs || []).forEach(r => {
+      const c = document.querySelector(`#oct-refs .chip[data-v="${r}"]`);
+      if (c) c.classList.add('selected');
+    });
+  }
+  // 還原 quest
+  if (state.quest) {
+    const q = state.quest;
+    if (q.topic) {
+      const tc = document.querySelector(`#q-topic .chip[data-v="${q.topic}"]`);
+      if (tc) tc.classList.add('selected');
+      else document.getElementById('q-topic-custom').value = q.topic;
+    }
+    if (q.problem) document.getElementById('q-problem').value = q.problem;
+    if (q.behavior) document.getElementById('q-behavior').value = q.behavior;
+    if (q.mechanic) document.getElementById('q-mechanic').value = q.mechanic;
+    if (q.risk) document.getElementById('q-risk').value = q.risk;
+    (q.drives || []).forEach(d => {
+      const c = document.querySelector(`#q-drives .oct-card[data-v="${d}"]`);
+      if (c) c.classList.add('selected');
+    });
+  }
+  updateHud();
+  updateTabChecks();
+  updateCertStatus();
+  refreshLiveCount();
+  loadLeaderboard();
+  setInterval(refreshLiveCount, 60000);
+  setInterval(loadLeaderboard, 60000);
+}
+init();
+</script>
+</body>
+</html>

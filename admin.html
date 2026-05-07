@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#1a1830">
+<meta name="robots" content="noindex,nofollow">
+<title>後台｜POLICY ARCADE</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%8A%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --c-bg: #1a1830; --c-bg-2: #2d2a4a; --c-bg-3: #3a3760;
+    --c-pink: #ed4978; --c-green: #4ce46f; --c-blue: #5cc6f5;
+    --c-yellow: #f9c66f; --c-text: #f5f3ff; --c-mute: #8b88a8;
+    --c-line: #4a456e; --c-danger: #ed4978;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 0;
+    font-family: 'Noto Sans TC', system-ui, sans-serif;
+    background: var(--c-bg); color: var(--c-text);
+    line-height: 1.65;
+  }
+  .pixel { font-family: 'Press Start 2P', monospace; letter-spacing: .04em; }
+  header {
+    background: var(--c-bg-2);
+    color: white; padding: 16px 20px;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 8px;
+    border-bottom: 4px solid var(--c-pink);
+  }
+  header h1 { margin: 0; font-size: 14px; font-family: 'Press Start 2P', monospace; color: var(--c-yellow); }
+  header .meta { font-size: 12px; color: var(--c-mute); }
+  header button.logout { background: var(--c-pink); color: white; border: none; padding: 6px 12px; font-size: 12px; cursor: pointer; }
+  main { max-width: 1200px; margin: 0 auto; padding: 16px; }
+
+  .login-box {
+    max-width: 400px; margin: 60px auto;
+    background: var(--c-bg-2); padding: 28px;
+    border: 4px solid var(--c-yellow);
+  }
+  .login-box h2 { margin: 0 0 6px; color: var(--c-yellow); font-family: 'Press Start 2P', monospace; font-size: 1rem; }
+  .login-box p { margin: 0 0 18px; color: var(--c-mute); font-size: 14px; }
+  .login-box input { width: 100%; padding: 12px 14px; border: 3px solid var(--c-line); background: var(--c-bg); color: var(--c-text); font-size: 16px; font-family: inherit; }
+  .login-box input:focus { outline: none; border-color: var(--c-yellow); }
+  .login-box button { width: 100%; margin-top: 10px; padding: 12px; border: none; background: var(--c-pink); color: white; font-size: 14px; font-family: 'Press Start 2P', monospace; cursor: pointer; }
+  .err { color: var(--c-danger); font-size: 13px; margin-top: 8px; min-height: 18px; }
+
+  .toolbar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; align-items: center; }
+  .toolbar button { background: var(--c-bg-2); border: 2px solid var(--c-line); color: var(--c-text); padding: 8px 14px; font-size: 13px; cursor: pointer; font-family: inherit; font-weight: 700; }
+  .toolbar button:hover { border-color: var(--c-yellow); }
+  .toolbar .auto-refresh { font-size: 12px; color: var(--c-mute); margin-left: auto; }
+
+  .stats { display: grid; gap: 10px; grid-template-columns: repeat(2, 1fr); margin-bottom: 16px; }
+  @media (min-width: 700px) { .stats { grid-template-columns: repeat(5, 1fr); } }
+  .stat-card { background: var(--c-bg-2); border: 3px solid var(--c-line); padding: 14px; }
+  .stat-card.pink { border-color: var(--c-pink); }
+  .stat-card.green { border-color: var(--c-green); }
+  .stat-card.blue { border-color: var(--c-blue); }
+  .stat-card.yellow { border-color: var(--c-yellow); }
+  .stat-label { font-size: 11px; color: var(--c-mute); margin-bottom: 4px; font-family: 'Press Start 2P', monospace; }
+  .stat-value { font-size: 28px; font-weight: 900; color: var(--c-yellow); line-height: 1; font-family: 'Press Start 2P', monospace; }
+  .stat-sub { font-size: 11px; color: var(--c-mute); margin-top: 4px; }
+
+  .section { background: var(--c-bg-2); border: 3px solid var(--c-line); padding: 16px; margin-bottom: 14px; }
+  .section-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; gap: 8px; }
+  .section-head h2 { margin: 0; font-size: 14px; color: var(--c-yellow); font-family: 'Press Start 2P', monospace; }
+  .badge { background: var(--c-pink); color: white; font-size: 11px; font-weight: 700; padding: 3px 10px; }
+  .badge.danger { background: var(--c-danger); }
+
+  .attendee-card {
+    background: var(--c-bg); padding: 12px; margin-bottom: 8px;
+    border-left: 4px solid var(--c-pink);
+  }
+  .attendee-head { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; margin-bottom: 6px; padding-bottom: 6px; border-bottom: 1px solid var(--c-line); }
+  .attendee-name { font-weight: 900; font-size: 15px; color: var(--c-yellow); }
+  .attendee-meta { font-size: 12px; color: var(--c-mute); }
+  .pill { display: inline-block; background: var(--c-pink); color: white; font-size: 10px; padding: 2px 8px; margin-left: 4px; }
+  .pill.green { background: var(--c-green); color: var(--c-bg); }
+  .pill.gray { background: var(--c-line); }
+  .attendee-time { font-size: 11px; color: var(--c-mute); margin-left: auto; }
+  .ws-block { margin: 6px 0; padding: 8px 10px; background: var(--c-bg-2); font-size: 12px; line-height: 1.6; }
+  .ws-block .label { font-weight: 700; color: var(--c-yellow); margin-right: 6px; }
+  .ws-block .key { color: var(--c-mute); font-size: 11px; font-weight: 700; display: inline-block; min-width: 80px; }
+  .ws-block .none { color: var(--c-mute); font-style: italic; }
+  .empty { text-align: center; color: var(--c-mute); padding: 28px 16px; }
+
+  .question-card {
+    background: var(--c-bg); padding: 10px 12px; margin-bottom: 8px;
+    border-left: 4px solid var(--c-danger);
+  }
+  .q-meta { display: flex; justify-content: space-between; flex-wrap: wrap; font-size: 12px; color: var(--c-mute); margin-bottom: 4px; }
+  .q-text { font-size: 13px; line-height: 1.65; white-space: pre-wrap; }
+
+  /* ========= PROJECTOR MODE ========= */
+  body.proj { font-size: 18px; }
+  body.proj header, body.proj .toolbar, body.proj .section .question-card { display: none; }
+  body.proj #proj-view { display: block !important; padding: 30px 40px; }
+  body.proj main > .stats, body.proj main > .section, body.proj main > p { display: none; }
+  body.proj #proj-exit { display: inline-block; }
+
+  #proj-view { display: none; }
+  #proj-view .proj-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 18px; border-bottom: 4px solid var(--c-pink);
+    margin-bottom: 24px;
+  }
+  #proj-view .proj-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 32px; color: var(--c-yellow);
+    letter-spacing: .04em;
+  }
+  #proj-view .proj-clock {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 24px; color: var(--c-green);
+  }
+  #proj-view .proj-grid {
+    display: grid; gap: 20px;
+    grid-template-columns: repeat(4, 1fr);
+    margin-bottom: 24px;
+  }
+  #proj-view .proj-stat {
+    background: var(--c-bg-2);
+    border: 4px solid var(--c-line);
+    padding: 20px 22px;
+    text-align: center;
+  }
+  #proj-view .proj-stat.pink { border-color: var(--c-pink); }
+  #proj-view .proj-stat.green { border-color: var(--c-green); }
+  #proj-view .proj-stat.blue { border-color: var(--c-blue); }
+  #proj-view .proj-stat.yellow { border-color: var(--c-yellow); }
+  #proj-view .proj-label {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 14px; color: var(--c-mute);
+    margin-bottom: 10px; letter-spacing: .04em;
+  }
+  #proj-view .proj-value {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 72px; color: var(--c-yellow);
+    line-height: 1;
+  }
+  #proj-view .proj-stat.pink .proj-value { color: var(--c-pink); }
+  #proj-view .proj-stat.green .proj-value { color: var(--c-green); }
+  #proj-view .proj-stat.blue .proj-value { color: var(--c-blue); }
+  #proj-view .proj-row { display: grid; gap: 24px; grid-template-columns: 1fr 1fr; margin-bottom: 24px; }
+  #proj-view .proj-card { background: var(--c-bg-2); border: 4px solid var(--c-line); padding: 22px; }
+  #proj-view .proj-card h3 {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 18px; color: var(--c-yellow);
+    margin: 0 0 18px;
+  }
+  #proj-view .bar-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; font-size: 18px; }
+  #proj-view .bar-label { width: 130px; color: var(--c-text); font-weight: 700; flex-shrink: 0; }
+  #proj-view .bar-track { flex: 1; height: 30px; background: var(--c-bg); border: 2px solid var(--c-line); position: relative; }
+  #proj-view .bar-fill {
+    height: 100%; background: var(--c-pink);
+    transition: width .6s ease-out;
+  }
+  #proj-view .bar-num {
+    position: absolute; right: 8px; top: 4px;
+    color: var(--c-text); font-weight: 900;
+    text-shadow: 0 0 4px black;
+  }
+  #proj-view .topic-cloud { display: flex; flex-wrap: wrap; gap: 10px; }
+  #proj-view .topic-tag {
+    background: var(--c-bg);
+    border: 3px solid var(--c-yellow);
+    color: var(--c-yellow);
+    padding: 8px 14px;
+    font-size: 16px;
+    font-weight: 700;
+  }
+  #proj-view .topic-tag .cnt {
+    background: var(--c-yellow); color: var(--c-bg);
+    padding: 2px 8px; margin-left: 6px;
+    font-family: 'Press Start 2P', monospace; font-size: 12px;
+  }
+  #proj-view .lead-row { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border: 2px solid var(--c-line); margin-bottom: 6px; background: var(--c-bg); }
+  #proj-view .lead-row.top3 { border-color: var(--c-yellow); }
+  #proj-view .lead-rank { font-family: 'Press Start 2P', monospace; width: 56px; text-align: center; color: var(--c-yellow); font-size: 18px; }
+  #proj-view .lead-name { flex: 1; color: var(--c-text); font-size: 18px; font-weight: 700; }
+  #proj-view .lead-team { color: var(--c-mute); font-size: 14px; }
+  #proj-view .lead-exp { font-family: 'Press Start 2P', monospace; background: var(--c-pink); color: var(--c-text); padding: 6px 10px; font-size: 14px; }
+  #proj-view .q-marquee { background: var(--c-bg); border: 3px solid var(--c-pink); padding: 16px; min-height: 80px; }
+  #proj-view .q-current {
+    color: var(--c-text); font-size: 22px; line-height: 1.6;
+    animation: qIn .4s ease-out;
+  }
+  @keyframes qIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  #proj-exit {
+    display: none; position: fixed; top: 16px; right: 16px;
+    background: var(--c-pink); color: white;
+    border: none; padding: 8px 16px; cursor: pointer;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 12px; z-index: 1000;
+  }
+  .toolbar button.proj-btn { background: var(--c-pink); color: white; border-color: var(--c-pink); }
+</style>
+</head>
+<body>
+
+<div id="login-view">
+  <div class="login-box">
+    <h2>📊 ADMIN LOGIN</h2>
+    <p>輸入管理員密碼以查看學員資料</p>
+    <input id="pw" type="password" placeholder="密碼" autocomplete="current-password">
+    <button id="btn-login">LOGIN</button>
+    <div class="err" id="err"></div>
+  </div>
+</div>
+
+<div id="dashboard" style="display:none">
+  <header>
+    <div>
+      <h1>📊 POLICY ARCADE</h1>
+      <div class="meta">公共行政暨政策學系 × 何佳勳</div>
+    </div>
+    <button class="logout" onclick="logout()">LOGOUT</button>
+  </header>
+
+  <main>
+    <div class="toolbar">
+      <button onclick="refresh()">🔄 重新整理</button>
+      <button onclick="exportCSV()">📥 匯出 CSV</button>
+      <button class="proj-btn" onclick="enterProjector()">📺 投影模式</button>
+      <label class="auto-refresh"><input type="checkbox" id="auto" checked> 自動 30 秒重整</label>
+    </div>
+
+    <div class="stats">
+      <div class="stat-card pink"><div class="stat-label">PLAYERS</div><div class="stat-value" id="s-att">0</div><div class="stat-sub">已報到</div></div>
+      <div class="stat-card green"><div class="stat-label">OCTALYSIS</div><div class="stat-value" id="s-oct" style="color:var(--c-green)">0</div><div class="stat-sub">完成設計器</div></div>
+      <div class="stat-card blue"><div class="stat-label">QUESTS</div><div class="stat-value" id="s-quest" style="color:var(--c-blue)">0</div><div class="stat-sub">送出小組任務</div></div>
+      <div class="stat-card yellow"><div class="stat-label">TEAMS</div><div class="stat-value" id="s-team" style="color:var(--c-yellow)">0</div><div class="stat-sub">小組數</div></div>
+      <div class="stat-card"><div class="stat-label">QUESTIONS</div><div class="stat-value" id="s-q" style="color:var(--c-pink)">0</div><div class="stat-sub">課堂提問</div></div>
+    </div>
+
+    <div class="section">
+      <div class="section-head"><h2>👥 PLAYER ROSTER</h2><span class="badge" id="b-att">0</span></div>
+      <div id="t-att"></div>
+    </div>
+
+    <div class="section">
+      <div class="section-head"><h2>📨 QUESTIONS</h2><span class="badge danger" id="b-q">0</span></div>
+      <div id="t-q"></div>
+    </div>
+
+    <p style="text-align:center; color:var(--c-mute); font-size:11px; margin:16px 0">
+      最後更新：<span id="last-update">—</span>
+    </p>
+
+    <!-- ========= PROJECTOR VIEW ========= -->
+    <div id="proj-view">
+      <div class="proj-header">
+        <div class="proj-title">📺 POLICY ARCADE · LIVE</div>
+        <div class="proj-clock" id="proj-clock">—</div>
+      </div>
+
+      <div class="proj-grid">
+        <div class="proj-stat pink"><div class="proj-label">PLAYERS</div><div class="proj-value" id="p-att">0</div></div>
+        <div class="proj-stat blue"><div class="proj-label">OCTALYSIS</div><div class="proj-value" id="p-oct">0</div></div>
+        <div class="proj-stat green"><div class="proj-label">QUESTS</div><div class="proj-value" id="p-quest">0</div></div>
+        <div class="proj-stat yellow"><div class="proj-label">QUESTIONS</div><div class="proj-value" id="p-q">0</div></div>
+      </div>
+
+      <div class="proj-row">
+        <div class="proj-card">
+          <h3>🎯 OCTALYSIS 八角力分布</h3>
+          <div id="p-drives"></div>
+        </div>
+        <div class="proj-card">
+          <h3>📋 議題雲（小組任務）</h3>
+          <div class="topic-cloud" id="p-topics"></div>
+        </div>
+      </div>
+
+      <div class="proj-row">
+        <div class="proj-card">
+          <h3>🏆 排行榜 TOP 5</h3>
+          <div id="p-lead"></div>
+        </div>
+        <div class="proj-card">
+          <h3>📨 提問跑馬燈</h3>
+          <div class="q-marquee">
+            <div class="q-current" id="p-q-current">— 還沒人提問 —</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<button id="proj-exit" onclick="exitProjector()">EXIT 投影模式</button>
+
+<script>
+const SUPABASE_URL = 'https://dpglkagtzdwiovzbtase.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_Tuj9p4DXvO-jEqVcBnumTg_TqZ1NnRu';
+const STORAGE_KEY = 'pa_admin_pw';
+var CACHE = null;
+let timer = null;
+
+async function fetchStats(secret) {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/rpc/pa_admin_stats`, {
+    method: 'POST',
+    headers: {'Content-Type':'application/json','apikey':SUPABASE_ANON_KEY,'Authorization':`Bearer ${SUPABASE_ANON_KEY}`},
+    body: JSON.stringify({ secret })
+  });
+  if (!res.ok) throw new Error(await res.text());
+  return await res.json();
+}
+
+async function login() {
+  const pw = document.getElementById('pw').value.trim();
+  const errEl = document.getElementById('err');
+  errEl.textContent = '';
+  if (!pw) { errEl.textContent = '請輸入密碼'; return; }
+  try {
+    const data = await fetchStats(pw);
+    sessionStorage.setItem(STORAGE_KEY, pw);
+    showDashboard(data);
+  } catch (e) {
+    errEl.textContent = '密碼錯誤';
+  }
+}
+function logout() { sessionStorage.removeItem(STORAGE_KEY); if (timer) clearInterval(timer); location.reload(); }
+
+function showDashboard(data) {
+  document.getElementById('login-view').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'block';
+  CACHE = data;
+  render(data);
+  document.getElementById('auto').addEventListener('change', setupAutoRefresh);
+  setupAutoRefresh();
+}
+function setupAutoRefresh() {
+  if (timer) clearInterval(timer);
+  if (document.getElementById('auto').checked) timer = setInterval(refresh, 30000);
+}
+async function refresh() {
+  const pw = sessionStorage.getItem(STORAGE_KEY);
+  if (!pw) return;
+  try { CACHE = await fetchStats(pw); render(CACHE); } catch (e) {}
+}
+function esc(s) { if (s == null) return '—'; return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function fmtTime(ts) { if (!ts) return '—'; const d = new Date(ts); return `${d.getMonth()+1}/${d.getDate()} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`; }
+function fmtArr(v) { if (!v) return '<span class="none">—</span>'; if (Array.isArray(v)) return v.length ? esc(v.join('、')) : '<span class="none">—</span>'; return esc(v); }
+
+function render(data) {
+  const sum = data.summary || {};
+  document.getElementById('s-att').textContent = sum.attendees_count || 0;
+  document.getElementById('s-oct').textContent = sum.octalysis_count || 0;
+  document.getElementById('s-quest').textContent = sum.quest_count || 0;
+  document.getElementById('s-team').textContent = (sum.teams || []).length || 0;
+  document.getElementById('s-q').textContent = sum.questions_count || 0;
+
+  const att = data.attendees || [];
+  document.getElementById('b-att').textContent = att.length;
+  document.getElementById('t-att').innerHTML = att.length === 0
+    ? '<div class="empty">還沒有人報到</div>'
+    : att.map(a => {
+        const oct = a.octalysis_design || {};
+        const q = a.group_quest || {};
+        const expCount = a.exp_log ? Object.keys(a.exp_log).length : 0;
+        return `
+      <div class="attendee-card">
+        <div class="attendee-head">
+          <span class="attendee-name">${esc(a.name)}</span>
+          <span class="attendee-meta">${esc(a.team || '—')} · ${esc(a.class_role || '')} · ${esc(a.student_id || '')}</span>
+          ${q.topic ? '<span class="pill green">✓ 提交任務</span>' : '<span class="pill gray">未提交</span>'}
+          ${oct.topic ? '<span class="pill">Octalysis ✓</span>' : ''}
+          <span class="pill" style="background:var(--c-yellow); color:var(--c-bg)">EXP ${expCount * 5}</span>
+          <span class="attendee-time">${fmtTime(a.created_at)}</span>
+        </div>
+        <div class="ws-block"><span class="label">📞</span>${esc(a.contact || '—')}</div>
+        ${oct.topic ? `
+          <div class="ws-block">
+            <div><span class="key">議題：</span>${esc(oct.topic)}</div>
+            <div><span class="key">驅動力：</span>${fmtArr(oct.drives)}</div>
+          </div>` : ''}
+        ${q.topic ? `
+          <div class="ws-block" style="background:var(--c-bg-3); border-left:3px solid var(--c-yellow)">
+            <div style="color:var(--c-yellow); font-weight:900; margin-bottom:4px">★ 小組任務</div>
+            <div><span class="key">議題：</span>${esc(q.topic)}</div>
+            <div><span class="key">問題：</span>${esc(q.problem || '—')}</div>
+            <div><span class="key">行為：</span>${esc(q.behavior || '—')}</div>
+            <div><span class="key">機制：</span>${esc(q.mechanic || '—')}</div>
+            <div><span class="key">驅動力：</span>${fmtArr(q.drives)}</div>
+            <div><span class="key">風險：</span>${esc(q.risk || '—')}</div>
+          </div>` : ''}
+      </div>`;
+      }).join('');
+
+  const qs = data.questions || [];
+  document.getElementById('b-q').textContent = qs.length;
+  document.getElementById('t-q').innerHTML = qs.length === 0
+    ? '<div class="empty">還沒有人提問</div>'
+    : qs.map(q => `
+      <div class="question-card">
+        <div class="q-meta">
+          <strong>${q.is_anonymous ? '🕶 匿名' : '👤 ' + esc(q.attendee_name || '未填')}${!q.is_anonymous && q.team ? '（' + esc(q.team) + '）' : ''}</strong>
+          <span>${fmtTime(q.created_at)}</span>
+        </div>
+        <div class="q-text">${esc(q.question)}</div>
+      </div>
+    `).join('');
+
+  document.getElementById('last-update').textContent = new Date().toLocaleTimeString('zh-TW');
+}
+
+function exportCSV() {
+  if (!CACHE) return;
+  const att = CACHE.attendees || [];
+  const header = ['ID','姓名','學號','小組','職業','聯絡','Octalysis議題','驅動力','任務議題','問題','目標行為','機制','驅動力2','風險','報到時間'];
+  const rows = att.map(a => {
+    const o = a.octalysis_design || {}; const q = a.group_quest || {};
+    return [a.id, a.name, a.student_id, a.team, a.class_role, a.contact,
+            o.topic, Array.isArray(o.drives) ? o.drives.join('|') : '',
+            q.topic, q.problem, q.behavior, q.mechanic,
+            Array.isArray(q.drives) ? q.drives.join('|') : '', q.risk,
+            a.created_at];
+  });
+  const csv = [header, ...rows].map(r => r.map(c => `"${String(c == null ? '' : c).replace(/"/g, '""')}"`).join(',')).join('\n');
+  const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `policy-arcade-${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+/* ====== Projector mode ====== */
+const EXP_RULES = {
+  register: 5,
+  case_se: 1, case_sg: 1, case_kr: 1, case_ee: 1, case_us: 1, case_tw: 1, case_uk: 1, case_duo: 1,
+  octalysis: 10,
+  quest: 15,
+  question: 3,
+};
+const OCT_LABELS = ['意義感','成就感','創造力','擁有感','社交影響','稀缺性','未知感','失去感'];
+
+function expFromLog(log) {
+  if (!log) return 0;
+  return Object.keys(log).reduce((s, k) => s + (EXP_RULES[k] || 0), 0);
+}
+
+let projTimer = null, qIdx = 0;
+
+function enterProjector() {
+  document.body.classList.add('proj');
+  renderProjector();
+  if (projTimer) clearInterval(projTimer);
+  projTimer = setInterval(() => { refresh(); renderProjector(); rotateQuestion(); }, 8000);
+  setInterval(updateClock, 1000);
+  updateClock();
+}
+window.enterProjector = enterProjector;
+
+function exitProjector() {
+  document.body.classList.remove('proj');
+  if (projTimer) { clearInterval(projTimer); projTimer = null; }
+}
+window.exitProjector = exitProjector;
+
+function updateClock() {
+  const d = new Date();
+  const el = document.getElementById('proj-clock');
+  if (el) el.textContent = `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}:${String(d.getSeconds()).padStart(2,'0')}`;
+}
+
+function renderProjector() {
+  if (!CACHE) return;
+  const sum = CACHE.summary || {};
+  document.getElementById('p-att').textContent = sum.attendees_count || 0;
+  document.getElementById('p-oct').textContent = sum.octalysis_count || 0;
+  document.getElementById('p-quest').textContent = sum.quest_count || 0;
+  document.getElementById('p-q').textContent = sum.questions_count || 0;
+
+  const att = CACHE.attendees || [];
+
+  // 八角力分布
+  const driveCnt = Object.fromEntries(OCT_LABELS.map(l => [l, 0]));
+  att.forEach(a => {
+    const drives = [...((a.octalysis_design||{}).drives || []), ...((a.group_quest||{}).drives || [])];
+    drives.forEach(d => { if (driveCnt[d] != null) driveCnt[d]++; });
+  });
+  const maxCnt = Math.max(1, ...Object.values(driveCnt));
+  document.getElementById('p-drives').innerHTML = OCT_LABELS.map(l => `
+    <div class="bar-row">
+      <div class="bar-label">${esc(l)}</div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:${(driveCnt[l] / maxCnt * 100).toFixed(1)}%"></div>
+        <div class="bar-num">${driveCnt[l]}</div>
+      </div>
+    </div>`).join('');
+
+  // 議題雲
+  const topicCnt = {};
+  att.forEach(a => {
+    const t = (a.group_quest||{}).topic;
+    if (t) topicCnt[t] = (topicCnt[t] || 0) + 1;
+  });
+  const topics = Object.entries(topicCnt).sort((a,b) => b[1] - a[1]);
+  document.getElementById('p-topics').innerHTML = topics.length === 0
+    ? '<div style="color:var(--c-mute)">— 還沒人提交小組任務 —</div>'
+    : topics.map(([t, c]) => `<div class="topic-tag">${esc(t)}<span class="cnt">${c}</span></div>`).join('');
+
+  // 排行榜 TOP 5（mask 名字）
+  const scored = att
+    .map(a => ({ name: a.name, role: a.class_role, team: a.team, exp: expFromLog(a.exp_log) }))
+    .filter(p => p.exp > 0)
+    .sort((a, b) => b.exp - a.exp)
+    .slice(0, 5);
+  document.getElementById('p-lead').innerHTML = scored.length === 0
+    ? '<div style="color:var(--c-mute)">— 還沒有人累積 EXP —</div>'
+    : scored.map((p, i) => {
+        const nick = p.name.length >= 2 ? p.name[0] + '*'.repeat(Math.min(p.name.length - 1, 2)) : p.name;
+        return `<div class="lead-row ${i < 3 ? 'top3' : ''}">
+          <div class="lead-rank">${['🥇','🥈','🥉'][i] || '#' + (i+1)}</div>
+          <div class="lead-name">${esc(nick)}</div>
+          <div class="lead-team">${esc(p.role || '—')} ${p.team ? '· '+esc(p.team) : ''}</div>
+          <div class="lead-exp">${p.exp} EXP</div>
+        </div>`;
+      }).join('');
+}
+
+function rotateQuestion() {
+  if (!CACHE) return;
+  const qs = (CACHE.questions || []);
+  if (qs.length === 0) return;
+  qIdx = (qIdx + 1) % qs.length;
+  const q = qs[qIdx];
+  const el = document.getElementById('p-q-current');
+  if (!el) return;
+  el.style.animation = 'none';
+  void el.offsetWidth;
+  el.style.animation = 'qIn .4s ease-out';
+  el.innerHTML = `<strong style="color:var(--c-yellow)">${q.is_anonymous ? '匿名' : esc(q.attendee_name || '')}：</strong>${esc(q.question)}`;
+}
+
+document.getElementById('btn-login').addEventListener('click', login);
+document.getElementById('pw').addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
+
+// 鍵盤快捷：Esc 退出投影、F 進入投影
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && document.body.classList.contains('proj')) exitProjector();
+  if (e.key === 'p' && e.ctrlKey && CACHE) { e.preventDefault(); enterProjector(); }
+});
+
+const cached = sessionStorage.getItem(STORAGE_KEY);
+if (cached) fetchStats(cached).then(showDashboard).catch(() => sessionStorage.removeItem(STORAGE_KEY));
+</script>
+</body>
+</html>
